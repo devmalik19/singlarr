@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<body th:replace="~{layouts/layout :: base('Search Indexes')}">
+		<div th:fragment="content">
+			<h2>Search Indexes</h2>
+
+			<div class="grid">
+				<div class="card"  onclick="toggleDialogWindow()">
+					Prowlarr
+                    <a  class="card-icon" id="syncButton" onclick="sync(event, '/settings/sync/prowlarr')">
+						🔄
+                    </a>
+				</div>
+			</div>
+
+			<h2> </h2>
+
+			<div class="grid">
+				<div class="card" th:each="index: ${indexes}" th:text="${index.name}">
+				</div>
+			</div>
+
+			<div th:replace="~{fragments/dialog :: dialog('Add New', '/settings/save/prowlarr', '/settings/check/prowlarr')}">
+				<div class="form-body" th:fragment="form-body"  th:object="${prowlarrSettings}">
+
+					<div class="form-row">
+						<label for="name">Name</label>
+						<input id="name" name="name"  th:field="*{name}"  placeholder="Prowlarr" required/>
+					</div>
+
+					<div class="form-row">
+						<label for="url">URL</label>
+						<input id="url" name="url"  th:field="*{url}"  type="url" placeholder="http://localhost:9696" required/>
+					</div>
+
+					<div class="form-row">
+						<label for="apiKey">API Key</label>
+						<input id="apiKey" name="apiKey"  th:value="*{apiKey}"  type="password" required/>
+					</div>
+
+                    <div class="form-row">
+                        <label for="tags">Tags</label>
+                        <input id="tags" name="tags"  th:field="*{tags}"  />
+                    </div>
+
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>

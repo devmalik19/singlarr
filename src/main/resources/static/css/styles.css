@@ -1,0 +1,85 @@
+/* CSS for all common elements and entire layout */
+
+:root
+{
+	--main-color: #216044;
+    --sub-color: #00a65b;
+    --highlight-color: #353535;
+    --hover-color: #a1d99b;
+
+    --text-color: #e6f6ee;
+    --muted-text: #cfeee0;
+
+	--link: #8fe0b8;
+	--link-hover: #b7f0d0;
+
+	--header-height:56px;
+	--border-radius: 10px;
+}
+
+/* Page background */
+html, body
+{
+	  height: 100%;
+	  margin: 0;
+	  padding: 0;
+	  background-color: var(--main-color);
+	  color: var(--text-color);
+	  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header and footer */
+header
+{
+	display: flex;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	justify-content: space-between;
+    align-items: center;
+	background-color: var(--sub-color);
+	box-shadow: 0 10px 10px 0 rgb(0, 0, 0, 0.3);
+}
+
+footer
+{
+	margin: 0;
+	padding: 10px;
+	color: var(--muted-text);
+	background: transparent;
+	box-shadow: 0 -10px 10px 0 rgb(0,0,0,0.2);
+}
+
+/* This contains sidebar and contents */
+.layout
+{
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+
+/* Main content */
+.content
+{
+	margin: 0;
+	padding: 10px;
+	flex-grow: 1;
+}
+
+/* Links and buttons */
+a
+{
+	color: var(--link);
+	text-decoration: none;
+}
+
+a:hover, a:focus
+{
+	color: var(--link-hover);
+	text-decoration: underline;
+}
+
+.hide
+{
+    display:none !important;
+}

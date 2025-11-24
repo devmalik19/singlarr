@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<body  th:replace="~{layouts/layout :: base('Search')}">
+		<div th:fragment="content">
+			<label for="search">Search</label>
+			<input id="search" />
+			<button type="button" onclick="search('/search/result')">
+				Search
+			</button>
+		</div>
+	</body>
+</html>

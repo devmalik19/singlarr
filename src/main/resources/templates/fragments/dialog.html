@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div id="dialog" class="dialog hide"  th:fragment="dialog(title, action, testAction)">
+			<form id="form" th:action="@{${action}}" method="post">
+				<div class="form-header">
+                    <span th:text="${title}">
+                        Modal Title
+                    </span>
+                    <span onclick="toggleDialogWindow()">
+                        X
+                    </span>
+                </div>
+
+				<div th:replace="~{::form-body}"></div>
+
+				<div class="form-footer">
+					<button type="button" onclick="toggleDialogWindow()">Cancel</button>
+					<button type="button"  id="testButton" th:onclick="|check('@{${testAction}}', 'form')|">Test</button>
+					<button type="submit">Save</button>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<div id="sidebar" class="sidebar"  th:fragment="sidebar">
+
+        <div class="sidebar-section">
+            <div class="sidebar-heading">Home</div>
+            <ul class="sidebar-submenu"  th:classappend="${section == '' || section == '/'} ? 'sidebar-active' ">
+                <li>
+                    <a  th:classappend="${section == '' || section == '/'} ? 'submenu-active'" th:href="@{/}">Home</a>
+                </li>
+                <li>
+                    <a  th:classappend="${section.contains('search')} ? 'submenu-active'" th:href="@{/search}">Search</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-heading">Settings</div>
+            <ul class="sidebar-submenu" th:classappend="${section.startsWith('settings')} ? 'sidebar-active'">
+                <li>
+                    <a  th:classappend="${section.contains('indexes')} ? 'submenu-active'" th:href="@{/settings/indexes}">Search Indexes</a>
+                </li>
+                <li>
+                    <a  th:classappend="${section.contains('clients')} ? 'submenu-active'" th:href="@{/settings/clients}">Download Clients</a>
+                </li>
+            </ul>
+        </div>
+
+	</div>
+</html>
+
