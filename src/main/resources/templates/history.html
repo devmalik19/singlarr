@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<body th:replace="~{layouts/layout :: base('History')}">
+		<div th:fragment="content">
+			<h2>History</h2>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Artist</th>
+						<th>Album</th>
+						<th>Year</th>
+						<th>Status</th>
+						<th>Delete</th>
+						<th>Download Path</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="result: ${history}">
+						<td th:text="${result.title}"></td>
+						<td th:text="${result.artist}"></td>
+						<td th:text="${result.album}"></td>
+						<td th:text="${result.year}"></td>
+						<td th:text="${result.status}"></td>
+						<td>
+							<button type="button" th:onclick="|deleteSearch('${result.id}')|">
+								Delete
+							</button>
+						</td>
+						<td th:text="${result.library?.path}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</body>
+</html>
