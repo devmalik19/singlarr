@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<body th:replace="~{layouts/layout :: base('Items')}">
+		<div th:fragment="content">
+			<h2 th:text="${currentLibrary.name}">Library Name</h2>
+
+			<h3>Folders</h3>
+			<div class="poster-grid">
+				<a class="poster" th:each="sub: ${subLibraries}" th:href="@{/library/{id}(id=${item.id})}">
+					<div class="poster-image" th:style="|background-image: url('@{/cache/library/{img}(img=${item.image})}');|"></div>
+					<div class="poster-details">
+						<span class="poster-title" th:text="'📁 ' + ${sub.name}">Folder Name</span>
+					</div>
+				</a>
+			</div>
+
+			<h3>Files</h3>
+			<div class="poster-grid">
+				<div class="poster" th:each="file: ${items}">
+					<div class="poster-image" th:style="'background-image: url(' + @{/images/default-poster.jpg} + ');'"></div>
+					<div class="poster-details">
+						<span class="poster-title"  th:text="'📄 ' + ${file.name}">File Name</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>

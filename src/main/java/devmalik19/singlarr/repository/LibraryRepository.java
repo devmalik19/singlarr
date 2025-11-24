@@ -1,0 +1,10 @@
+package devmalik19.singlarr.repository;
+
+import devmalik19.singlarr.data.dao.Library;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LibraryRepository extends JpaRepository<Library, String>
+{
+	Optional<Library> findByPath(String path);
+}
