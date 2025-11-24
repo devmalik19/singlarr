@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<body th:replace="~{layouts/layout :: base('General')}">
+		<div th:fragment="content">
+			<h2>General Settings</h2>
+			<form action="#" th:action="@{/settings/save/schedule}" method="post">
+
+				<div>
+					<label for="fixedTime">Fixed Time</label>
+					<select id="fixedTime" name="fixedTime" required>
+						<option value="">Select a time</option>
+						<option th:each="time : ${fixedTime}" th:value="${time}"  th:text="${time}">12:00 AM</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="interval">Interval</label>
+					<select id="interval" name="interval" required>
+						<option value="">Select an interval</option>
+						<option th:each="i : ${interval}" th:value="${i}" th:text="${i}">5 minutes</option>
+					</select>
+				</div>
+
+				<button type="submit">Save</button>
+			</form>
+
+			<form action="#" th:action="@{/settings/save/priority}" method="post">
+				<ul>
+					<li th:each="service : ${services}">
+						<label th:for="${service + '_priority'}" th:text="${service}">Key Name</label>
+						<input type="number"
+							   th:id="${service + '_priority'}"
+							   th:name="${service + '_priority'}"
+							   min="1"
+							   max="10"
+							   value="1"
+							   />
+					</li>
+				</ul>
+				<button type="submit">Save</button>
+			</form>
+
+		</div>
+	</body>
+</html>
