@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SinglarrApplication
 {
-	public static void main(String[] args)
+	static void main(String[] args)
 	{
 		SpringApplication.run(SinglarrApplication.class, args);
 	}
@@ -15,7 +15,5 @@ public class SinglarrApplication
 
 /* TODO
 	alpha release :
-
-	3. how to run project as docker
-	4. publish to docker
+	1. Create layout
  */
