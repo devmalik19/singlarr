@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="base(pageTitle)">
+	<head>
+		<meta charset="UTF-8"/>
+		<title th:text="${pageTitle}">My App</title>
+		<link rel="stylesheet" th:href="@{/css/styles.css}" />
+	</head>
+	<body>
+
+		<!-- include header fragment from separate file -->
+		<div th:insert="fragments/header :: header"></div>
+
+		<div class="layout container">
+			<!-- include sidebar fragment -->
+			<div th:insert="fragments/sidebar :: sidebar"></div>
+
+			<!-- content slot: replaced by calling page's fragment named 'content' -->
+			<main class="content" th:replace="~{::content}"></main>
+		</div>
+
+		<!-- include footer fragment -->
+		<div th:insert="fragments/footer :: footer"></div>
+
+	</body>
+</html>

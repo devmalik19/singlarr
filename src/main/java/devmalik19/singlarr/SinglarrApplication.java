@@ -15,8 +15,7 @@ public class SinglarrApplication
 
 /* TODO
 	alpha release :
-	1. how to easily switch DB with env variables
-	2. how to integrate angular
+
 	3. how to run project as docker
 	4. publish to docker
  */

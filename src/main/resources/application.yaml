@@ -1,10 +1,38 @@
 spring:
     application:
         name: singlarr
+    thymeleaf:
+        cache: false
+    profiles:
+        active: "sqlite"
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: "sqlite"
     datasource:
         url: "jdbc:sqlite:singlarr.db"
         driver-class-name: org.sqlite.JDBC
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         database-platform: "org.hibernate.community.dialect.SQLiteDialect"
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: "mariadb"
+    datasource:
+        url: "jdbc:mariadb://localhost:3306/${MARIADB_DATABASE:singlarr}"
+        username: "${MARIADB_USER:mariadb}"
+        password: "${MARIADB_PASSWORD:mariadb}"
+        driver-class-name: org.mariadb.jdbc.Driver
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        database-platform: "org.hibernate.dialect.MariaDBDialect"
