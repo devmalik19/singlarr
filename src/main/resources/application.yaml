@@ -1,3 +1,10 @@
 spring:
-  application:
-    name: singlarr
+    application:
+        name: singlarr
+    datasource:
+        url: "jdbc:sqlite:singlarr.db"
+        driver-class-name: org.sqlite.JDBC
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        database-platform: "org.hibernate.community.dialect.SQLiteDialect"
