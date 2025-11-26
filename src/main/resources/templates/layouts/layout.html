@@ -2,20 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="base(pageTitle)">
 	<head>
 		<meta charset="UTF-8"/>
-		<title th:text="${pageTitle}">My App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title th:text="${pageTitle}">Singlarr</title>
+
+		<link rel="icon" type="image/png" th:href="@{/images/favicon-96x96.png}" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" th:href="@{/images/favicon.svg}" />
+		<link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+		<link rel="apple-touch-icon" sizes="180x180" th:href="@{/images/apple-touch-icon.png}" />
+		<link rel="manifest" th:href="@{/images/site.webmanifest}" />
+
 		<link rel="stylesheet" th:href="@{/css/styles.css}" />
+		<link rel="stylesheet" th:href="@{/css/header.css}" />
+		<link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+		<link rel="stylesheet" th:href="@{/css/footer.css}" />
+
+		<script th:src="@{/js/main.js}"></script>
 	</head>
 	<body>
 
 		<!-- include header fragment from separate file -->
 		<div th:insert="fragments/header :: header"></div>
 
-		<div class="layout container">
+		<div class="layout">
 			<!-- include sidebar fragment -->
-			<div th:insert="fragments/sidebar :: sidebar"></div>
+			<div th:replace="fragments/sidebar :: sidebar"></div>
 
 			<!-- content slot: replaced by calling page's fragment named 'content' -->
-			<main class="content" th:replace="~{::content}"></main>
+			<main class="content" th:insert="~{::content}"></main>
 		</div>
 
 		<!-- include footer fragment -->

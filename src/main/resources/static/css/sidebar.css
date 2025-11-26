@@ -1,0 +1,34 @@
+/* CSS for elements inside the sidebar */
+
+.sidebar
+{
+	margin: 0;
+	padding: 0;
+	width: 15%;
+	border-right: 1px solid var(--border);
+	transition: transform 0.25s ease;
+}
+
+.sidebar.toggle
+{
+	transform: translateX(-100%);
+}
+
+@media screen and (max-width:768px)
+{
+	.sidebar
+	{
+		position: fixed;
+		top: var(--header-height);
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: 1000;
+		transform: translateX(-100%);
+	}
+
+	.sidebar.toggle
+    {
+    	transform: translateX(0);
+    }
+}

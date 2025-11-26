@@ -1,0 +1,72 @@
+/* CSS for all common elements and entire layout */
+
+:root
+{
+	--bg-color: #0b3d2e;
+	--text-color: #e6f6ee;
+	--link: #8fe0b8;
+	--link-hover: #b7f0d0;
+	--muted-text: #cfeee0;
+	--border: rgba(255,255,255,0.06);
+	--header-height: 56px;
+}
+
+/* Page background */
+html, body
+{
+	  height: 100%;
+	  margin: 0;
+	  padding: 0;
+	  background-color: var(--bg-color);
+	  color: var(--text-color);
+	  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header and footer */
+header
+{
+	display: flex;
+	margin: 0;
+	padding: 10px;
+	top: 0;
+	justify-content: space-between;
+	height: var(--header-height);
+	border-bottom: 1px solid var(--border);
+}
+
+footer
+{
+	margin: 0;
+	padding: 10px;
+	color: var(--muted-text);
+	background: transparent;
+	border-top: 1px solid var(--border);
+}
+
+/* This contains sidebar and contents */
+.layout
+{
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+
+/* Main content */
+.content
+{
+	margin: 0;
+	padding: 10px;
+}
+
+/* Links and buttons */
+a
+{
+	color: var(--link);
+	text-decoration: none;
+}
+a:hover, a:focus
+{
+	color: var(--link-hover);
+	text-decoration: underline;
+}
+

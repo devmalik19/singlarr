@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<body>
-		<aside th:fragment="sidebar" class="sidebar">
-			<nav>
-				<ul>
-					<li><a th:href="@{/}" th:classappend="${current} == 'home' ? ' active' : ''">Home</a></li>
-					<li><a th:href="@{/settings}" th:classappend="${current} == 'settings' ? ' active' : ''">Settings</a></li>
-				</ul>
-			</nav>
-		</aside>
-	</body>
+	<div id="sidebar" aria-hidden="false" class="sidebar"  th:fragment="sidebar">
+		<nav class="sidebar-nav" role="navigation" aria-label="Main">
+			<ul>
+				<li><a th:href="@{/}">Home</a></li>
+				<li><a th:href="@{/settings}">Settings</a></li>
+			</ul>
+		</nav>
+	</div>
 </html>
+
