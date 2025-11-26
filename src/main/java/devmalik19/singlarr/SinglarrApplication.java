@@ -6,14 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SinglarrApplication
 {
-	static void main(String[] args)
+	public static void main(String[] args)
 	{
 		SpringApplication.run(SinglarrApplication.class, args);
 	}
 }
-
-
-/* TODO
-	alpha release :
-	1. Create layout
- */
