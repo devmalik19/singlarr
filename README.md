@@ -26,5 +26,4 @@ services:
 # TODO
 ## alpha release :
 
-1. Fix layout issue - white hamburger icon, sidebar collapse so expand main content, sidebar full screen and background on mobile
-2. Start working on album scanner.
+1. Start working on album scanner.

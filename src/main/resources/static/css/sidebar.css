@@ -6,29 +6,36 @@
 	padding: 0;
 	width: 15%;
 	border-right: 1px solid var(--border);
-	transition: transform 0.25s ease;
+	transition: all 1s ease;
 }
 
 .sidebar.toggle
 {
 	transform: translateX(-100%);
+	width: 0;
+	height:0;
+	display: none;
 }
 
 @media screen and (max-width:768px)
 {
+    .layout
+    {
+        flex-direction: column;
+    }
+
 	.sidebar
 	{
-		position: fixed;
-		top: var(--header-height);
-		left: 0;
 		height: 100%;
 		width: 100%;
+		background-color: var(--bg-color);
 		z-index: 1000;
-		transform: translateX(-100%);
+		transform: translateY(-200%);
 	}
 
 	.sidebar.toggle
     {
-    	transform: translateX(0);
+    	transform: translateY(0);
+    	display: block;
     }
 }

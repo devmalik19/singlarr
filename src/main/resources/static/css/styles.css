@@ -2,7 +2,9 @@
 
 :root
 {
-	--bg-color: #0b3d2e;
+	--bg-color: #216044;
+	--selected-color: #353535;
+	--header-color: #00a65b;
 	--text-color: #e6f6ee;
 	--link: #8fe0b8;
 	--link-hover: #b7f0d0;
@@ -29,6 +31,7 @@ header
 	margin: 0;
 	padding: 10px;
 	top: 0;
+	background-color: var(--header-color);
 	justify-content: space-between;
 	height: var(--header-height);
 	border-bottom: 1px solid var(--border);
@@ -56,6 +59,7 @@ footer
 {
 	margin: 0;
 	padding: 10px;
+	flex-grow: 1;
 }
 
 /* Links and buttons */
