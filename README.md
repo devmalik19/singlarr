@@ -25,4 +25,6 @@ services:
 
 # TODO
 ## alpha release :
-1. Test setup
+1. Test setup on raspberry pie, end to end, reverse proxy, mobile.
+2. Fix layout.
+3. Start working on album scanner.
