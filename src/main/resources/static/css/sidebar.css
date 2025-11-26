@@ -12,9 +12,6 @@
 .sidebar.toggle
 {
 	transform: translateX(-100%);
-	width: 0;
-	height:0;
-	display: none;
 }
 
 @media screen and (max-width:768px)
@@ -30,12 +27,11 @@
 		width: 100%;
 		background-color: var(--bg-color);
 		z-index: 1000;
-		transform: translateY(-200%);
+		max-height: 500px; 
 	}
 
 	.sidebar.toggle
     {
-    	transform: translateY(0);
-    	display: block;
+		max-height: 0; 
     }
 }
