@@ -19,5 +19,6 @@
 
 .burger
 {
+	padding-right:10px;
 	cursor: pointer;
 }
