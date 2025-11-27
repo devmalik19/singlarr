@@ -40,4 +40,15 @@ document.addEventListener('DOMContentLoaded', function ()
 		}
 	});
 
+	const headings = document.querySelectorAll('.sidebar-heading');
+
+    headings.forEach(heading => {
+        heading.addEventListener('click', function() {
+            const submenu = this.nextElementSibling;
+            if (submenu && submenu.classList.contains('sidebar-submenu')) {
+                submenu.classList.toggle('active');
+            }
+        });
+    });
+
 });

@@ -25,5 +25,3 @@ services:
 
 # TODO
 ## alpha release :
-
-1. Start working on album scanner.

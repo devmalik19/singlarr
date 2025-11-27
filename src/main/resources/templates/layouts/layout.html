@@ -22,7 +22,7 @@
 	<body>
 
 		<!-- include header fragment from separate file -->
-		<div th:insert="fragments/header :: header"></div>
+		<div th:replace="fragments/header :: header"></div>
 
 		<div class="layout">
 			<!-- include sidebar fragment -->
@@ -33,7 +33,7 @@
 		</div>
 
 		<!-- include footer fragment -->
-		<div th:insert="fragments/footer :: footer"></div>
+		<div th:replace="fragments/footer :: footer"></div>
 
 	</body>
 </html>
