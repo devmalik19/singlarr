@@ -12,7 +12,6 @@
 	--link-hover: #b7f0d0;
 	--muted-text: #cfeee0;
 	--border: rgba(255,255,255,0.06);
-	--header-height: 56px;
 }
 
 /* Page background */
@@ -31,11 +30,10 @@ header
 {
 	display: flex;
 	margin: 0;
-	padding: 10px;
+	padding: 0;
 	top: 0;
 	background-color: var(--sub-color);
 	justify-content: space-between;
-	height: var(--header-height);
 	box-shadow: 0 10px 10px 0 rgb(0, 0, 0, 0.3);
 }
 
