@@ -25,3 +25,5 @@ services:
 
 # TODO
 ## alpha release :
+1. keep the side menu open when we select a page.
+2. Make /error page work.
