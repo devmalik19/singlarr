@@ -5,6 +5,7 @@
 	margin: 0;
 	padding: 0;
 	width: 15%;
+	min-height: 80vh;
 	box-shadow: 10px 0 10px rgba(0, 0, 0, 0.3);
 	transition: all 0.5s ease;
 }
@@ -28,15 +29,16 @@
 	{
 		width: 100%;
 		z-index: 1000;
-		height: auto;
-		max-height: 0;
+		height: 0;
+		min-height: 0;
 		overflow: hidden;
 	}
 
 	.sidebar.toggle
     {
         width: 100%;
-        max-height: 100px;
+        height: auto;
+        min-height: 80vh;
     }
 }
 
@@ -83,5 +85,5 @@
 
 .sidebar-submenu.active
 {
-    max-height: 200px;
+    max-height: 500px;
 }

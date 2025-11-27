@@ -41,11 +41,19 @@ document.addEventListener('DOMContentLoaded', function ()
 	});
 
 	const headings = document.querySelectorAll('.sidebar-heading');
+    const submenus = document.querySelectorAll('.sidebar-submenu'); // Select all submenus
 
-    headings.forEach(heading => {
-        heading.addEventListener('click', function() {
+    headings.forEach(heading =>
+    {
+        heading.addEventListener('click', function()
+        {
             const submenu = this.nextElementSibling;
             if (submenu && submenu.classList.contains('sidebar-submenu')) {
+                submenus.forEach(otherSubmenu => {
+                    if (otherSubmenu !== submenu && otherSubmenu.classList.contains('active')) {
+                        otherSubmenu.classList.remove('active');
+                    }
+                });
                 submenu.classList.toggle('active');
             }
         });
