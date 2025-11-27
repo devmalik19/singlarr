@@ -32,8 +32,9 @@ header
 	margin: 0;
 	padding: 0;
 	top: 0;
-	background-color: var(--sub-color);
 	justify-content: space-between;
+    align-items: center;
+	background-color: var(--sub-color);
 	box-shadow: 0 10px 10px 0 rgb(0, 0, 0, 0.3);
 }
 
