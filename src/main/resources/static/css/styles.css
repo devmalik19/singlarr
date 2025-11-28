@@ -5,7 +5,7 @@
 	--main-color: #216044;
     --sub-color: #00a65b;
     --highlight-color: #353535;
-    --hover-color:#808000;
+    --hover-color: #a1d99b;
 
     --text-color: #e6f6ee;
     --muted-text: #cfeee0;
@@ -71,6 +71,7 @@ a
 	color: var(--link);
 	text-decoration: none;
 }
+
 a:hover, a:focus
 {
 	color: var(--link-hover);

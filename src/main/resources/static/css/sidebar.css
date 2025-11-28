@@ -82,9 +82,16 @@
 .sidebar-submenu li a:hover
 {
     background-color: var(--hover-color);
+    color:var(--highlight-color);
 }
 
-.sidebar-submenu.active
+.submenu-active
+{
+    background-color: var(--hover-color);
+    color:var(--highlight-color);
+}
+
+.sidebar-active
 {
     max-height: 500px;
 }

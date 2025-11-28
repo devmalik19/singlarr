@@ -50,11 +50,11 @@ document.addEventListener('DOMContentLoaded', function ()
             const submenu = this.nextElementSibling;
             if (submenu && submenu.classList.contains('sidebar-submenu')) {
                 submenus.forEach(otherSubmenu => {
-                    if (otherSubmenu !== submenu && otherSubmenu.classList.contains('active')) {
-                        otherSubmenu.classList.remove('active');
+                    if (otherSubmenu !== submenu && otherSubmenu.classList.contains('sidebar-active')) {
+                        otherSubmenu.classList.remove('sidebar-active');
                     }
                 });
-                submenu.classList.toggle('active');
+                submenu.classList.toggle('sidebar-active');
             }
         });
     });

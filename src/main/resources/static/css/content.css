@@ -20,12 +20,19 @@ h2
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+	cursor: pointer;
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 
 	margin: 20px;
 	min-height: 160px;
+}
+
+.card:hover, .card:focus
+{
+	color:var(--highlight-color);
+	background-color: var(--hover-color);
 }
 
 @media screen and (max-width:768px)
