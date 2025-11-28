@@ -6,12 +6,14 @@
     --sub-color: #00a65b;
     --highlight-color: #353535;
     --hover-color:#808000;
+
     --text-color: #e6f6ee;
+    --muted-text: #cfeee0;
 
 	--link: #8fe0b8;
 	--link-hover: #b7f0d0;
-	--muted-text: #cfeee0;
-	--border: rgba(255,255,255,0.06);
+
+	--header-height:56px;
 }
 
 /* Page background */

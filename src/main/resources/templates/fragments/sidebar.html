@@ -4,7 +4,7 @@
 
         <div class="sidebar-section">
             <div class="sidebar-heading">Home</div>
-            <ul class="sidebar-submenu">
+            <ul class="sidebar-submenu"  th:classappend="${section.startsWith('/home')} ? 'active' ">
                 <li>
                     <a  th:href="@{/}">Home</a>
                 </li>
@@ -13,12 +13,12 @@
 
         <div class="sidebar-section">
             <div class="sidebar-heading">Settings</div>
-            <ul class="sidebar-submenu">
+            <ul class="sidebar-submenu" th:classappend="${section.startsWith('/settings')} ? 'active' ">
                 <li>
-                    <a  th:href="@{/indexes}">Search Indexes</a>
+                    <a  th:href="@{~/settings/indexes}">Search Indexes</a>
                 </li>
                 <li>
-                    <a  th:href="@{/clients}">Download Clients</a>
+                    <a  th:href="@{~/settings/clients}">Download Clients</a>
                 </li>
             </ul>
         </div>

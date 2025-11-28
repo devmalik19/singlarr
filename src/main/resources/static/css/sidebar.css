@@ -45,17 +45,16 @@
 
 .sidebar-heading
 {
-    padding: 10px 15px;
+	display: flex;
+	margin: 0;
+    padding-left: 10px;
+    align-items: center;
+	height: var(--header-height);
     background-color: var(--highlight-color);
     cursor: pointer;
     font-weight: bold;
     border-bottom: 1px solid black;
     transition: background-color 0.3s ease;
-}
-
-.sidebar-heading:hover
-{
-    background-color: var(--hover-color);
 }
 
 .sidebar-submenu
@@ -71,9 +70,11 @@
 
 .sidebar-submenu li a
 {
-    display: block;
-    padding: 8px 15px 8px 30px;
-    color: #ecf0f1;
+	display: flex;
+	margin: 0;
+    padding-left: 10px;
+    align-items: center;
+	height: var(--header-height);
     text-decoration: none;
     transition: background-color 0.2s ease;
 }
