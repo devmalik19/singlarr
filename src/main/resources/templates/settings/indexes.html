@@ -10,23 +10,11 @@
 				</div>
 			</div>
 
-
-			<div id="dialog" class="dialog hide">
-				<form th:action="@{/settings/indexes/save}">
-					<div class="form-header">
-
-					</div>
-
-					<div class="form-body">
-						<label for="name">Name</label>
-						<input id="name" name="name" />
-					</div>
-
-					<div class="form-footer">
-						<button type="button" onclick="toggleDialogWindow()">Cancel</button>
-						<button type="submit">Save</button>
-					</div>
-				</form>
+			<div th:replace="fragments/dialog :: dialog('/settings/indexes/save')">
+				<div th:fragment="form-body">
+					<label for="name">Name</label>
+					<input id="name" name="name" />
+				</div>
 			</div>
 
 		</div>

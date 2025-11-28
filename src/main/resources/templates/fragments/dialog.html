@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
+		<div id="dialog" class="dialog hide"  th:fragment="dialog(action)">
+			<form th:action="@{${action}}">
+				<div class="form-header"></div>
 
+				<div class="form-body" th:replace="~{::form-body}"></div>
+
+				<div class="form-footer">
+					<button type="button" onclick="toggleDialogWindow()">Cancel</button>
+					<button type="submit">Save</button>
+				</div>
+			</form>
+		</div>
 	</body>
 </html>
