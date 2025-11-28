@@ -14,6 +14,7 @@
 	--link-hover: #b7f0d0;
 
 	--header-height:56px;
+	--border-radius: 10px;
 }
 
 /* Page background */
@@ -78,3 +79,27 @@ a:hover, a:focus
 	text-decoration: underline;
 }
 
+.dialog
+{
+	position: absolute;
+	top: 5vh;
+	left: 5vw;
+	margin: 0;
+	padding: 10px;
+	height: 90vh;
+	width: 90vw;
+	border: 1px solid rgba(0,0,0);
+	border-radius: var(--border-radius);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background-color: var(--main-color);
+}
+
+ .hide
+ {
+ 	display:none !important;
+ }

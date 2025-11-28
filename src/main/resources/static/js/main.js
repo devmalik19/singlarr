@@ -2,22 +2,8 @@ document.addEventListener('DOMContentLoaded', function ()
 {
 	const toggleButton = document.getElementById('sidebar-toggle');
 	const sidebar = document.getElementById('sidebar');
-
-	function openSidebar()
-	{
-		console.log("Open sidebar");
-		toggleButton.setAttribute('aria-expanded', 'true');
-		sidebar.setAttribute('aria-hidden', 'false');
-		sidebar.classList.remove('toggle');
-	}
-
-	function closeSidebar()
-	{
-		console.log("Close sidebar");
-		toggleButton.setAttribute('aria-expanded', 'false');
-		sidebar.setAttribute('aria-hidden', 'true');
-		sidebar.classList.add('toggle');
-	}
+	const headings = document.querySelectorAll('.sidebar-heading');
+	const submenus = document.querySelectorAll('.sidebar-submenu');
 
 	toggleButton.addEventListener('click', function ()
 	{
@@ -40,9 +26,6 @@ document.addEventListener('DOMContentLoaded', function ()
 		}
 	});
 
-	const headings = document.querySelectorAll('.sidebar-heading');
-    const submenus = document.querySelectorAll('.sidebar-submenu'); // Select all submenus
-
     headings.forEach(heading =>
     {
         heading.addEventListener('click', function()
@@ -59,4 +42,26 @@ document.addEventListener('DOMContentLoaded', function ()
         });
     });
 
+	function openSidebar()
+	{
+		console.log("Open sidebar");
+		toggleButton.setAttribute('aria-expanded', 'true');
+		sidebar.setAttribute('aria-hidden', 'false');
+		sidebar.classList.remove('toggle');
+	}
+
+	function closeSidebar()
+	{
+		console.log("Close sidebar");
+		toggleButton.setAttribute('aria-expanded', 'false');
+		sidebar.setAttribute('aria-hidden', 'true');
+		sidebar.classList.add('toggle');
+	}
+
 });
+
+function toggleDialogWindow()
+{
+	const dialog = document.getElementById('dialog');
+	dialog.classList.toggle('hide');
+}

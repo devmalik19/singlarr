@@ -3,14 +3,32 @@
 	<body th:replace="layouts/layout :: base('Search Indexes')">
 		<div th:fragment="content">
 			<h2>Search Indexes</h2>
+
 			<div class="grid">
-				<div class="card">Card 1</div>
-				<div class="card">Card 2</div>
-				<div class="card">Card 3</div>
-				<div class="card">Card 4</div>
-				<div class="card">Card 5</div>
-				<div class="card">Card 6</div>
+				<div class="card"  onclick="toggleDialogWindow()">
+					Prowlarr
+				</div>
 			</div>
+
+
+			<div id="dialog" class="dialog hide">
+				<form th:action="@{/settings/indexes/save}">
+					<div class="form-header">
+
+					</div>
+
+					<div class="form-body">
+						<label for="name">Name</label>
+						<input id="name" name="name" />
+					</div>
+
+					<div class="form-footer">
+						<button type="button" onclick="toggleDialogWindow()">Cancel</button>
+						<button type="submit">Save</button>
+					</div>
+				</form>
+			</div>
+
 		</div>
 	</body>
 </html>
