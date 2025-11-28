@@ -25,5 +25,5 @@ services:
 
 # TODO
 ## alpha release :
-1. 
-2.
+1. Highlight the current page in sub-menu.
+2. Change highlight color.
