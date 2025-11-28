@@ -26,4 +26,4 @@ services:
 # TODO
 ## alpha release :
 1. 
-2. Make /error page work.
+2.

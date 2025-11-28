@@ -1,8 +1,4 @@
 server:
-    error:
-        whitelabel:
-            enabled: false
-        path: /error
     servlet:
         context-path: ${BASE_URL:/}
     port: ${PORT:8019}
