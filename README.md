@@ -43,3 +43,5 @@ services:
 
 ## UI Changes :
 1. Good table formatting
+2. After sync width of cards are small
+3. Hide searchResult before results
