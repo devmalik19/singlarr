@@ -7,6 +7,10 @@
 			<button type="button" onclick="search('/search/result')">
 				Search
 			</button>
+
+			<div th:replace="~{fragments/table :: searchResults}">
+			</div>
+
 		</div>
 	</body>
 </html>

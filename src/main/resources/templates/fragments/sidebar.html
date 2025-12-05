@@ -4,24 +4,24 @@
 
         <div class="sidebar-section">
             <div class="sidebar-heading">Home</div>
-            <ul class="sidebar-submenu"  th:classappend="${section == '' || section == '/'} ? 'sidebar-active' ">
+            <ul class="sidebar-submenu"  th:classappend="${section == '/' || section == '/search'} ? 'sidebar-active' ">
                 <li>
-                    <a  th:classappend="${section == '' || section == '/'} ? 'submenu-active'" th:href="@{/}">Home</a>
+                    <a  th:classappend="${section == '/'} ? 'submenu-active'" th:href="@{/}">Home</a>
                 </li>
                 <li>
-                    <a  th:classappend="${section.contains('search')} ? 'submenu-active'" th:href="@{/search}">Search</a>
+                    <a  th:classappend="${section.contains('/search')} ? 'submenu-active'" th:href="@{/search}">Search</a>
                 </li>
             </ul>
         </div>
 
         <div class="sidebar-section">
             <div class="sidebar-heading">Settings</div>
-            <ul class="sidebar-submenu" th:classappend="${section.startsWith('settings')} ? 'sidebar-active'">
+            <ul class="sidebar-submenu" th:classappend="${section.startsWith('/settings')} ? 'sidebar-active'">
                 <li>
-                    <a  th:classappend="${section.contains('indexes')} ? 'submenu-active'" th:href="@{/settings/indexes}">Search Indexes</a>
+                    <a  th:classappend="${section.contains('/indexes')} ? 'submenu-active'" th:href="@{/settings/indexes}">Search Indexes</a>
                 </li>
                 <li>
-                    <a  th:classappend="${section.contains('clients')} ? 'submenu-active'" th:href="@{/settings/clients}">Download Clients</a>
+                    <a  th:classappend="${section.contains('/clients')} ? 'submenu-active'" th:href="@{/settings/clients}">Download Clients</a>
                 </li>
             </ul>
         </div>

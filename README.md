@@ -39,9 +39,8 @@ services:
 
 # TODO
 ## alpha release :
-1. Show search results on UI.
-2. How to download
-3. Reload page after sync refresh.
+1. How to download
+2. Reload page after sync refresh.
 
-## Code Refactor :
-Fix model attribute issue
+## UI Changes :
+1. Good table formatting

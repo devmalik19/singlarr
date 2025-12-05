@@ -107,6 +107,7 @@ async function search(uri)
 	const searchInput = document.getElementById("search");
 	url = uri + "?search=" + searchInput.value;
     const response = await doGetRequest(url);
+    document.getElementById("searchResults").innerHTML = response;
 }
 
 async function doGetRequest(url)
@@ -114,7 +115,7 @@ async function doGetRequest(url)
 	const response = await fetch(url, {
 		method: "GET"
 	});
-	return response;
+	return await response.text();
 }
 
 async function doPostRequest(url, formId)
@@ -125,5 +126,5 @@ async function doPostRequest(url, formId)
 		method: "POST",
 		body: formData,
 	});
-	return response;
+	return await response.text();
 }

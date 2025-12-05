@@ -129,7 +129,7 @@ public class ProwlarrService
 		String response = httpRequestService.doGetRequest(url, headers);
 		if(StringUtils.hasText(response))
 		{
-			logger.info("Response from prowlarr : {}", response);
+			logger.debug("Response from prowlarr : {}", response);
 			Tag[] items = objectMapper.readValue(response, Tag[].class);
 			tags = Arrays.stream(items)
 					.collect(Collectors.toMap(
