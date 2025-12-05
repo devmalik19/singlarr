@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 	<body>
-		<div id="searchResults" th:fragment="searchResults">
+		<div th:fragment="searchResults">
 			<h2> Search Results for </h2>
 			<table>
 				<thead>
 					<tr>
-						<th>Title</th>
+						<th>GUID</th>
+                        <th>Protocol</th>
+                        <th>Indexer</th>
+                        <th>Title</th>
+                        <th>Seeders</th>
+                        <th>Leechers</th>
+                        <th>Download Url</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="result: ${searchResults}">
-						<td th:text="${result.title}">Example Result Title</td>
-					</tr>
+						<td th:text="${result.guid}"></td>
+                        <td th:text="${result.protocol}"></td>
+                        <td th:text="${result.indexer}"></td>
+                        <td th:text="${result.title}"></td>
+                        <td th:text="${result.seeders}"></td>
+                        <td th:text="${result.leechers}"></td>
+                        <td th:text="${result.downloadUrl}"></td>
+                    </tr>
 				</tbody>
 			</table>
 		</div>

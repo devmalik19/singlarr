@@ -56,9 +56,10 @@ public class SettingsController
     }
 
 	@GetMapping("/settings/sync/prowlarr")
-	@ResponseBody
-	public void sync()
+	public String sync(Model model)
 	{
 		settingsService.sync(SettingsKeys.PROWLARR);
+		model.addAttribute("indexes", indexService.findAll());
+		return   "settings/indexes :: indexes";
 	}
 }

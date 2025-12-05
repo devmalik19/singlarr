@@ -68,17 +68,9 @@ async function sync(event, url)
     element.textContent = '...';
 
     const response = await doGetRequest(url);
-
-    if (response.ok)
-    {
-        element.innerHTML = '✅';
-    }
-    else
-    {
-        element.innerHTML = '❌';
-    }
-
+    element.innerHTML = '✅';
     element.disabled = false;
+    document.getElementById("indexes").innerHTML = response;
 }
 
 async function check(url, formId)
@@ -126,5 +118,5 @@ async function doPostRequest(url, formId)
 		method: "POST",
 		body: formData,
 	});
-	return await response.text();
+	return await response;
 }

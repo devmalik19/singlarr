@@ -8,10 +8,10 @@ import lombok.Data;
 public class SearchResult
 {
     private String guid;
-    private String indexer;
+	private String protocol;
+	private String indexer;
     private String title;
-    private String downloadUrl;
     private int seeders;
     private int leechers;
-    private String protocol;
+	private String downloadUrl;
 }

@@ -40,7 +40,6 @@ services:
 # TODO
 ## alpha release :
 1. How to download
-2. Reload page after sync refresh.
 
 ## UI Changes :
 1. Good table formatting
