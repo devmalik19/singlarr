@@ -55,7 +55,7 @@ async function fetchResults(uri)
 	const params = new URLSearchParams({
 		search: searchInput.value,
 		page: currentPage,
-		size: 10,
+		size: 100,
 		sort: sortParam
 	});
 

@@ -2,6 +2,8 @@ package devmalik19.singlarr.service;
 
 import devmalik19.singlarr.constants.Protocol;
 import devmalik19.singlarr.data.dto.DownloadRequest;
+import devmalik19.singlarr.service.external.QbittorrentService;
+import devmalik19.singlarr.service.external.SabnzbdService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

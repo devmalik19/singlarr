@@ -1,4 +1,4 @@
-package devmalik19.singlarr.service;
+package devmalik19.singlarr.service.external;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import devmalik19.singlarr.constants.Constants;
@@ -10,6 +10,7 @@ import devmalik19.singlarr.data.dto.Tag;
 import devmalik19.singlarr.repository.IndexRepository;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
 
+import devmalik19.singlarr.service.HttpRequestService;
 import java.net.URI;
 import java.util.*;
 
@@ -110,7 +111,7 @@ public class ProwlarrService
 			uriBuilder.queryParam("type", "search");
 			uriBuilder.queryParam("categories", Constants.SEARCH_CATEGORY);
 			uriBuilder.queryParam("indexerIds", indexerIds);
-			uriBuilder.queryParam("limit", 100);
+			uriBuilder.queryParam("limit", Constants.QUERY_LIMIT);
 			uriBuilder.queryParam("offset", 0);
 
 			URI uri = uriBuilder.build().toUri();

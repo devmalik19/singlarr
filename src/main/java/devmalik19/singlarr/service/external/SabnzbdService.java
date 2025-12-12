@@ -1,10 +1,11 @@
-package devmalik19.singlarr.service;
+package devmalik19.singlarr.service.external;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import devmalik19.singlarr.constants.Keys;
 import devmalik19.singlarr.data.dao.Setting;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
 import devmalik19.singlarr.repository.SettingsRepository;
+import devmalik19.singlarr.service.HttpRequestService;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

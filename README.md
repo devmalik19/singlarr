@@ -41,6 +41,9 @@ services:
 
 # TODO
 ## alpha release :
+Test prowlers for multiple results
 
 ## Good to have (Not needed) :
 Catch all exception in controller advice
+Fix CSS pagination colors
+Check all services are login base

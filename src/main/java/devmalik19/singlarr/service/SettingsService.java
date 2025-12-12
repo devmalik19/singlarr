@@ -5,6 +5,10 @@ import devmalik19.singlarr.constants.Keys;
 import devmalik19.singlarr.data.dao.Setting;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
 import devmalik19.singlarr.repository.SettingsRepository;
+import devmalik19.singlarr.service.external.ProwlarrService;
+import devmalik19.singlarr.service.external.QbittorrentService;
+import devmalik19.singlarr.service.external.SabnzbdService;
+import devmalik19.singlarr.service.plugins.SlskdService;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -22,16 +26,16 @@ SettingsService
     SettingsRepository settingsRepository;
 
 	@Autowired
-	ProwlarrService prowlarrService;
+    ProwlarrService prowlarrService;
 
     @Autowired
-    QbittorrentService qbittorrentService;
+	QbittorrentService qbittorrentService;
 
     @Autowired
-    SabnzbdService sabnzbdService;
+	SabnzbdService sabnzbdService;
 
     @Autowired
-    SlskdService slskdService;
+	SlskdService slskdService;
 
     ObjectMapper objectMapper = new ObjectMapper();
 

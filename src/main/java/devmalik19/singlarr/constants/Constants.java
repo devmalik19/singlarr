@@ -6,4 +6,5 @@ public class Constants
 	public static String LIBRARY_PATH = "/library";
 	public static String SEARCH_CATEGORY = "3000";
 	public static String ENCRYPTION_KEY;
+	public static int QUERY_LIMIT = 1000;
 }

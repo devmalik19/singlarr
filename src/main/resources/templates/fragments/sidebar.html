@@ -23,6 +23,9 @@
                 <li>
                     <a  th:classappend="${section.contains('/clients')} ? 'submenu-active'" th:href="@{/settings/clients}">Download Clients</a>
                 </li>
+				<li>
+					<a  th:classappend="${section.contains('/services')} ? 'submenu-active'" th:href="@{/settings/services}">Other Services</a>
+				</li>
             </ul>
         </div>
 

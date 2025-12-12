@@ -1,7 +1,7 @@
 package devmalik19.singlarr.helper;
 
 import devmalik19.singlarr.constants.Constants;
-import devmalik19.singlarr.service.ProwlarrService;
+import devmalik19.singlarr.service.external.ProwlarrService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

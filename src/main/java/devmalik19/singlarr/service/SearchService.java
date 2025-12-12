@@ -1,6 +1,8 @@
 package devmalik19.singlarr.service;
 
 import devmalik19.singlarr.data.dto.SearchResult;
+import devmalik19.singlarr.service.external.ProwlarrService;
+import devmalik19.singlarr.service.plugins.SlskdService;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;

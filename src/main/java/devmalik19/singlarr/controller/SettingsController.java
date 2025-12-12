@@ -36,13 +36,19 @@ public class SettingsController
     {
         ConnectionSettings qbt = settingsService.get(Keys.QBITTORRENT, ConnectionSettings.class);
         ConnectionSettings sabnzbd = settingsService.get(Keys.SABNZBD, ConnectionSettings.class);
-        ConnectionSettings slskd = settingsService.get(Keys.SLSKD, ConnectionSettings.class);
 
         model.addAttribute("qbt", qbt);
         model.addAttribute("sabnzbd", sabnzbd);
-        model.addAttribute("slskd", slskd);
         return "settings/clients";
     }
+
+	@GetMapping("settings/services")
+	public String services(Model model) throws Exception
+	{
+		ConnectionSettings slskd = settingsService.get(Keys.SLSKD, ConnectionSettings.class);
+		model.addAttribute("slskd", slskd);
+		return "settings/services";
+	}
 
 	@PostMapping("/settings/save/{key}")
 	public String save(@PathVariable String key, @ModelAttribute ConnectionSettings connectionSettings, Model model)
