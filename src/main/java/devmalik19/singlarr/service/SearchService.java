@@ -77,9 +77,4 @@ public class SearchService
 		}
 		return searchResults;
 	}
-
-	public String searchSlskd(String search) throws Exception
-    {
-        return slskdService.search(search);
-    }
 }

@@ -11,9 +11,6 @@
 				<div class="card" data-id="sabnzbd"  onclick="toggleDialogWindow(this)">
 					Sabnzbd
 				</div>
-				<div class="card" data-id="slskd"  onclick="toggleDialogWindow(this)">
-					Slskd
-				</div>
 			</div>
 
 			<div th:replace="~{fragments/dialog :: dialog('Add qBittorrent', 'qbt' , '/settings/save/qbt', '/settings/check/qbt')}">
@@ -68,31 +65,6 @@
 					<div class="form-row">
 						<label for="category_sabnzbd">Category</label>
 						<input id="category_sabnzbd" name="category"  th:field="*{category}"  />
-					</div>
-				</div>
-			</div>
-
-			<div th:replace="~{fragments/dialog :: dialog('Add Slskd', 'slskd', '/settings/save/slskd', '/settings/check/slskd')}">
-				<div class="form-body" th:fragment="slskd"  th:object="${slskd}">
-
-					<div class="form-row">
-						<label for="name_slskd">Name</label>
-						<input id="name_slskd" name="name"  th:field="*{name}"  placeholder="Slskd" required/>
-					</div>
-
-					<div class="form-row">
-						<label for="url_slskd">URL</label>
-						<input id="url_slskd" name="url"  th:field="*{url}"  type="url" placeholder="http://localhost:9696" required/>
-					</div>
-
-					<div class="form-row">
-						<label for="apiKey_slskd">API Key</label>
-						<input id="apiKey_slskd" name="apiKey"  th:value="*{apiKey}"  type="password" required/>
-					</div>
-
-					<div class="form-row">
-						<label for="category_slskd">Category</label>
-						<input id="category_slskd" name="category"  th:field="*{category}"  />
 					</div>
 				</div>
 			</div>

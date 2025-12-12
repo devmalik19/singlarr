@@ -1,4 +1,5 @@
 let currentPage = 0;
+let pageSize = 100;
 let currentSortField = '';
 let currentSortDirection = '';
 let currentSearchTerm = '';
@@ -14,7 +15,7 @@ async function search(searchButton, uri)
 	const params = new URLSearchParams({
 		search: searchInput.value,
 		page: currentPage,
-		size: 10,
+		size: pageSize,
 		sort: sortParam
 	});
 
@@ -55,7 +56,7 @@ async function fetchResults(uri)
 	const params = new URLSearchParams({
 		search: searchInput.value,
 		page: currentPage,
-		size: 100,
+		size: pageSize,
 		sort: sortParam
 	});
 
