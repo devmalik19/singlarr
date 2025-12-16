@@ -3,8 +3,8 @@
 	<body th:replace="~{layouts/layout :: base('General')}">
 		<div th:fragment="content">
 			<h2>General Settings</h2>
-			<form action="#" th:action="@{/settings/save/schedule}" method="post">
 
+			<form th:action="@{/settings/save/schedule}" method="post">
 				<div>
 					<label for="fixedTime">Fixed Time</label>
 					<select id="fixedTime" name="fixedTime" required>
@@ -24,17 +24,20 @@
 				<button type="submit">Save</button>
 			</form>
 
-			<form action="#" th:action="@{/settings/save/priority}" method="post">
-				<ul id="priority-list">
-					<li th:each="service : ${services}" class="ui-state-default">
-						<span th:text="${service}">Service Name</span>
+			<form th:action="@{/settings/save/priority}" method="post">
+				<ul id="sortable">
+					<li class="ui-state-default" th:each="service : ${services}">
+						<span class="ui-icon ui-icon-arrowthick-2-n-s" th:text="${service}">Service Name</span>
 						<input type="hidden" name="services" th:value="${service}" />
 					</li>
 				</ul>
 				<button type="submit">Save</button>
 			</form>
 
+			<th:block th:fragment="scripts">
+				<th:block th:replace="~{fragments/jquery :: scripts}"></th:block>
+			</th:block>
+
 		</div>
-		<div th:replace="~{fragments/jquery :: jquery-script}"></div>
 	</body>
 </html>
