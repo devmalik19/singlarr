@@ -25,21 +25,16 @@
 			</form>
 
 			<form action="#" th:action="@{/settings/save/priority}" method="post">
-				<ul>
-					<li th:each="service : ${services}">
-						<label th:for="${service + '_priority'}" th:text="${service}">Key Name</label>
-						<input type="number"
-							   th:id="${service + '_priority'}"
-							   th:name="${service + '_priority'}"
-							   min="1"
-							   max="10"
-							   value="1"
-							   />
+				<ul id="priority-list">
+					<li th:each="service : ${services}" class="ui-state-default">
+						<span th:text="${service}">Service Name</span>
+						<input type="hidden" name="services" th:value="${service}" />
 					</li>
 				</ul>
 				<button type="submit">Save</button>
 			</form>
 
 		</div>
+		<div th:replace="fragments/jquery :: jquery-script"></div>
 	</body>
 </html>

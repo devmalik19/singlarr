@@ -7,10 +7,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -70,14 +71,20 @@ public class SettingsController
 	@PostMapping("/settings/save/{key}")
 	public String save(
 		@PathVariable String key,
-		@RequestParam(value = "redirect", required = false) String redirect,
-		@ModelAttribute ConnectionSettings connectionSettings, Model model)
+		@RequestParam Map<String, String> formData)
+	{
+		settingsService.save(key, formData);
+		return "redirect:/settings";
+	}
+
+	@PostMapping(value = "/settings/save/{key}", params = "redirect")
+	public String save(
+		@PathVariable String key,
+		@RequestParam(value = "redirect") String redirect,
+		@ModelAttribute ConnectionSettings connectionSettings)
 	{
 		settingsService.save(key, connectionSettings);
-		if(StringUtils.hasText(redirect))
-			return "redirect:/settings/"+redirect;
-		else
-			return "redirect:/settings";
+		return "redirect:/settings/"+redirect;
 	}
 
 	@GetMapping("/settings/indexes/{id}")
