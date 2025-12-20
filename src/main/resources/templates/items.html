@@ -17,7 +17,7 @@
 			<h3>Files</h3>
 			<div class="poster-grid">
 				<div class="poster" th:each="file: ${items}">
-					<div class="poster-image" th:style="'background-image: url(' + @{/images/default-poster.jpg} + ');'"></div>
+					<div class="poster-image" th:style="'background-image: url(' + @{/images/default.png} + ');'"></div>
 					<div class="poster-details">
 						<span class="poster-title"  th:text="'📄 ' + ${file.name}">File Name</span>
 					</div>

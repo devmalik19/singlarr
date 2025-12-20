@@ -50,7 +50,7 @@
     padding-left: 10px;
     align-items: center;
 	height: var(--header-height);
-    background-color: var(--highlight-color);
+    background-color: var(--main-color);
     cursor: pointer;
     font-weight: bold;
     border-bottom: 1px solid black;
@@ -82,13 +82,13 @@
 .sidebar-submenu li a:hover
 {
     background-color: var(--hover-color);
-    color:var(--highlight-color);
+    color:var(--main-color);
 }
 
 .submenu-active
 {
     background-color: var(--hover-color);
-    color:var(--highlight-color);
+    color:var(--main-color);
 }
 
 .sidebar-active

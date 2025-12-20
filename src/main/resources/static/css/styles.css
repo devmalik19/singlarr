@@ -2,9 +2,8 @@
 
 :root
 {
-	--main-color: #216044; /* Dark Green */
-    --sub-color: #00a65b;  /* Light Green */
-    --highlight-color: #353535; /* Main Black */
+	--main-color: #353535; /* Main color - Dark*/
+    --sub-color: #1DB954;  /* Main color - Green Accent */
     --text-color: #e6f6ee;	/* Main White */
 
     --hover-color: #a1d99b; /* Very Light Green */
@@ -96,7 +95,7 @@ th, td
 
 thead tr
 {
-    background-color: var(--highlight-color);
+    background-color: var(--main-color);
 }
 
 tbody tr:hover

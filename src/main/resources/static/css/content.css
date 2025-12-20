@@ -32,7 +32,7 @@ h2
 
 .card:hover, .card:focus
 {
-	color:var(--highlight-color);
+	color:var(--main-color);
 	background-color: var(--hover-color);
 }
 
