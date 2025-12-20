@@ -41,8 +41,12 @@ services:
 
 # TODO
 ## alpha release :
-Save images in database.
-If not found show default
+
+1. Show default images
+2. Don't show folder which don't have any files in it.
+3. Option to delete and block folders
+4. Metadata Search and add to library
 
 ## Good to have (Not needed) :
 Option to give list of files to ignore.
+Only create new project when above is fixed.
