@@ -42,7 +42,6 @@ services:
 # TODO
 ## alpha release :
 
-2. Fix icons
 3. Option to delete and block folders
 4. Metadata Search and add to library
 
