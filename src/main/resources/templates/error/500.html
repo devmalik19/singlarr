@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <title th:text="${status} + ' Error'"></title>
     </head>
@@ -7,6 +7,6 @@
         <h1 th:text="${status}">Error Code</h1>
         <p th:if="${error}" th:text="${error}">Error Type</p>
         <p>We couldn't find the page you were looking for at <code th:text="${path}">/broken/link</code>.</p>
-        <a href="/">Go to Home Page</a>
+        <a th:href="@{/}">Go to Home Page</a>
     </body>
 </html>

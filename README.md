@@ -42,8 +42,7 @@ services:
 # TODO
 ## alpha release :
 
-1. Show default images
-2. Don't show folder which don't have any files in it.
+2. Fix icons
 3. Option to delete and block folders
 4. Metadata Search and add to library
 

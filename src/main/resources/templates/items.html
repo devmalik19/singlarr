@@ -2,24 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<body th:replace="~{layouts/layout :: base('Items')}">
 		<div th:fragment="content">
-			<h2 th:text="${currentLibrary.name}">Library Name</h2>
+			<h2 th:text="${library.name}">Library Name</h2>
 
 			<h3>Folders</h3>
 			<div class="poster-grid">
-				<a class="poster" th:each="sub: ${subLibraries}" th:href="@{/library/{id}(id=${item.id})}">
-					<div class="poster-image" th:style="|background-image: url('@{/cache/library/{img}(img=${item.image})}');|"></div>
+				<a class="poster" th:each="library: ${libraries}" th:href="@{/library/{id}(id=${library.id})}">
+					<div class="poster-image"
+						 th:style="|background-image: url('${library.image != null and !library.image.empty ? '/cache/library/' + library.image : '/images/default.png'}');|">					</div>
 					<div class="poster-details">
-						<span class="poster-title" th:text="'📁 ' + ${sub.name}">Folder Name</span>
+						<span class="poster-title" th:text="'📁 ' + ${library.name}">Folder Name</span>
 					</div>
 				</a>
 			</div>
 
 			<h3>Files</h3>
 			<div class="poster-grid">
-				<div class="poster" th:each="file: ${items}">
+				<div class="poster" th:each="item: ${items}">
 					<div class="poster-image" th:style="'background-image: url(' + @{/images/default.png} + ');'"></div>
 					<div class="poster-details">
-						<span class="poster-title"  th:text="'📄 ' + ${file.name}">File Name</span>
+						<span class="poster-title"  th:text="'📄 ' + ${item.name}">File Name</span>
 					</div>
 				</div>
 			</div>

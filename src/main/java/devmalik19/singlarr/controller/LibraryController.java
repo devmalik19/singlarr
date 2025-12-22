@@ -24,11 +24,11 @@ public class LibraryController
 	@GetMapping("/library/{id}")
 	public String items(@PathVariable("id") String id, Model model)
 	{
-		Library currentLibrary = libraryService.findById(id);
+		Library library = libraryService.findById(id);
 
-		model.addAttribute("currentLibrary", currentLibrary);
-		model.addAttribute("subLibraries", currentLibrary.getLibraryList());
-		model.addAttribute("items", currentLibrary.getItemList());
+		model.addAttribute("library", library);
+		model.addAttribute("libraries", library.getLibraryList());
+		model.addAttribute("items", library.getItemList());
 
 		return "items";
 	}
