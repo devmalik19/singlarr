@@ -4,12 +4,13 @@ import devmalik19.singlarr.constants.Constants;
 import devmalik19.singlarr.constants.FileTypes;
 import devmalik19.singlarr.data.dao.Item;
 import devmalik19.singlarr.data.dao.Library;
+import devmalik19.singlarr.data.dao.LibraryFilter;
 import devmalik19.singlarr.repository.ItemRepository;
+import devmalik19.singlarr.repository.LibraryFilterRepository;
 import devmalik19.singlarr.repository.LibraryRepository;
 import devmalik19.singlarr.service.metadata.MetaDataService;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import java.nio.file.*;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -37,18 +38,24 @@ public class LibraryService
 	@Autowired
 	private ItemRepository itemRepository;
 
+	@Autowired
+	private LibraryFilterRepository libraryFilterRepository;
+
 	public void scan() throws Exception
 	{
 		Map<Path, Library> savedDirectories = new HashMap<>();
 		List<Path> filesList = fileSystemService.scanRoot(Constants.LIBRARY_PATH);
 		Path rootPath = Paths.get(Constants.LIBRARY_PATH).toAbsolutePath().normalize();
 		filesList.sort(Comparator.comparingInt(Path::getNameCount));
+		List<PathMatcher> dbFilters = dbFilters();
+
 		logger.info("Starting root scan with list of files/directories {}", filesList);
 
 		filesList.forEach(file->{
 
 			boolean isIgnored = Constants.pathMatcherList.stream().anyMatch(matcher -> matcher.matches(file));
-			if (isIgnored)
+			boolean isDbIgnored = dbFilters.stream().anyMatch(matcher -> matcher.matches(file));
+			if (isIgnored || isDbIgnored)
 			{
 				logger.info("Skipping for file {}", file);
 				return;
@@ -97,6 +104,17 @@ public class LibraryService
 			}
 		});
 		logger.info("Root scan finish");
+	}
+
+	private List<PathMatcher> dbFilters()
+	{
+		List<LibraryFilter> dbFilters = libraryFilterRepository.findAll();
+		FileSystem fileSystem = FileSystems.getDefault();
+		return dbFilters.stream()
+			.map(filter -> {
+				return fileSystem.getPathMatcher("glob:" + filter + "{,/**}");
+			})
+			.toList();
 	}
 
 	public List<Library> getAll()

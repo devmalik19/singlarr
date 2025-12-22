@@ -42,8 +42,8 @@ services:
 # TODO
 ## alpha release :
 
-3. Option to delete and block folders
-4. Metadata Search and add to library
+1. Endpoints to ignore folders
+2. Metadata Search and add to library
 
 ## Good to have (Not needed) :
 Option to give list of files to ignore.

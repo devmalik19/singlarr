@@ -44,4 +44,9 @@ CREATE TABLE item (
 	CONSTRAINT FK_ITEM_ON_LIBRARY  FOREIGN KEY (parent) REFERENCES library (id)
 );
 
+CREATE TABLE library_filter (
+	"path" VARCHAR(255) PRIMARY KEY,
+	"type" VARCHAR(255) NULL
+);
+
 INSERT INTO settings VALUES('priority','{"TORRENT":1,"USENET":2,"slskd":3}')
