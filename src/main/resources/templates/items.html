@@ -7,8 +7,8 @@
 			<h3>Folders</h3>
 			<div class="poster-grid">
 				<a class="poster" th:each="library: ${libraries}" th:href="@{/library/{id}(id=${library.id})}">
-					<div class="poster-image"
-						 th:style="|background-image: url('${library.image != null and !library.image.empty ? '/cache/library/' + library.image : '/images/default.png'}');|">					</div>
+					<div class="poster-image" th:style="|background-image: url('@{${@imageHelper.getPath(item.image)}}');|">
+					</div>
 					<div class="poster-details">
 						<span class="poster-title" th:text="'📁 ' + ${library.name}">Folder Name</span>
 					</div>
