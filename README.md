@@ -43,5 +43,6 @@ services:
 ## alpha release :
 
 Test everything 
+Sorting order not working on UI
 
 ## Good to have (Not needed) :
