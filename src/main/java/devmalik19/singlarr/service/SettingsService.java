@@ -1,6 +1,9 @@
 package devmalik19.singlarr.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import devmalik19.singlarr.constants.Keys;
 import devmalik19.singlarr.constants.Settings;
 import devmalik19.singlarr.data.dao.Setting;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
@@ -9,6 +12,7 @@ import devmalik19.singlarr.service.plugins.PluginsService;
 import devmalik19.singlarr.service.thirdparty.NetworkService;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -103,4 +107,13 @@ SettingsService
 	{
 		return pluginsService.getConnectionsSettingsForServices();
 	}
+
+    public List<String> getServices() throws Exception
+	{
+		String value = Settings.store.get(Keys.PRIORITY);
+		HashMap<String, Integer> priority = objectMapper.readValue(value, new TypeReference<HashMap<String, Integer>>() {});
+
+		return priority.entrySet().stream()
+			.sorted(Entry.comparingByValue()).map(Entry::getKey).toList();
+    }
 }

@@ -43,6 +43,6 @@ services:
 ## alpha release :
 
 Test everything 
-Sorting order not working on UI
+Delete SLSKD after search
 
 ## Good to have (Not needed) :
