@@ -67,10 +67,11 @@
 
 			<dialog id="searchModal">
 				<div>
-					<h2>Select your destination</h2>
+					<h2>Select destination</h2>
 					<div th:each="artist: ${library}">
 						<strong th:text="${artist.name}">Artist Name</strong>
 						<div th:each="album : ${artist.libraryList}">
+							Add to :
 							<button type="button"
 									th:text="${album.name}"
 									th:data-item="${album.id}"
