@@ -3,7 +3,7 @@
 	<body th:replace="~{layouts/layout :: base('Search Details')}">
 		<div th:fragment="content">
 			<h2>Search Details</h2>
-			<a th:href="@{/search}" class="button" >Back to History</a>
+
 			<div>
 				<p><strong>Title:</strong> <span th:text="${search.title}"></span></p>
 				<p><strong>Artist:</strong> <span th:text="${search.artist}"></span></p>
@@ -11,10 +11,10 @@
 				<p><strong>Year:</strong> <span th:text="${search.year}"></span></p>
 				<p><strong>Status:</strong> <span th:text="${search.status}"></span></p>
 				<p><strong>Path:</strong> <span th:text="${search.library?.path}"></span></p>
+				<a th:href="@{/search}" class="button" >Back to History</a>
 			</div>
 
 			<hr>
-
 			<button type="button" th:onclick="|triggerSearch(this, '${search.id}')|">
 				Search
 			</button>
@@ -25,7 +25,8 @@
 				Delete
 			</button>
 
-
+			<div id="searchResults">
+			</div>
 		</div>
 	</body>
 </html>

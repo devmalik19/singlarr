@@ -71,9 +71,9 @@ public class SearchController
 		return PaginationHelper.prepareResponse(searchResultsPage, pageable, model);
     }
 
-	@GetMapping("/search/trigger")
+	@GetMapping("/search/trigger/{id}")
 	@ResponseBody
-	public ResponseEntity<String> trigger(@RequestParam(value = "id") int id) throws Exception
+	public ResponseEntity<String> trigger(@PathVariable(value = "id") int id) throws Exception
 	{
 		Search search = searchService.getSearchById(id);
 		searchService.searchEntry(search);
