@@ -146,4 +146,10 @@ public class SearchService
 		Optional<Search> opt = searchRepository.findById(id);
 		opt.ifPresent(search -> searchRepository.delete(search));
 	}
+
+	public Search getSearchById(Integer id)
+	{
+		Optional<Search> opt = searchRepository.findById(id);
+		return opt.get();
+	}
 }

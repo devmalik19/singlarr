@@ -43,7 +43,6 @@ services:
 ## alpha release :
 
 Test torrent and Usenet
-Option to edit Artists and Albums and interactive search
 From download to artist folder
 
 ## Good to have (Not needed) :

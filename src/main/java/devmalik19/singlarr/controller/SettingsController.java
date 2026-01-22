@@ -1,13 +1,8 @@
 package devmalik19.singlarr.controller;
 
-import devmalik19.singlarr.constants.Constants;
 import devmalik19.singlarr.service.IndexService;
 import devmalik19.singlarr.service.SettingsService;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
-import devmalik19.singlarr.service.plugins.PluginsService;
-import devmalik19.singlarr.service.thirdparty.NetworkService;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 

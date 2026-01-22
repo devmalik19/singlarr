@@ -12,6 +12,7 @@ import devmalik19.singlarr.repository.LibraryRepository;
 import devmalik19.singlarr.service.metadata.MetaDataService;
 
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,24 @@ public class LibraryService
 
 	@Autowired
 	private LibraryFilterRepository libraryFilterRepository;
+
+	public void dbCleanUp() throws Exception
+	{
+		logger.info("Database cleanup started!");
+		List<Library> libraryList = libraryRepository.findAll();
+		List<Library> toDelete = new ArrayList<>();
+		for(Library library:libraryList)
+		{
+			if(!Files.exists(Path.of(library.getPath())))
+				toDelete.add(library);
+		}
+		if (!toDelete.isEmpty())
+		{
+			libraryRepository.deleteAllInBatch(toDelete);
+			logger.info("Deleted {} missing records.", toDelete.size());
+		}
+		logger.info("Database cleanup complete!");
+	}
 
 	public void scan() throws Exception
 	{
