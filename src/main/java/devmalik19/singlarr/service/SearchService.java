@@ -58,9 +58,10 @@ public class SearchService
 			.sorted(Entry.comparingByValue()).toList();
 	}
 
-    public Page<SearchResult> interactiveSearch(String searchTerm, Pageable pageable) throws Exception
+    public Page<SearchResult> interactiveSearch(Integer id, Pageable pageable) throws Exception
     {
-		List<SearchResult> searchResults = Arrays.asList(networkService.getSearchResults(searchTerm));
+		Search search = getSearchById(id);
+		List<SearchResult> searchResults = Arrays.asList(networkService.getSearchResults(search.getArtist() + " " + search.getTitle()));
 		return PaginationHelper.prepareResults(searchResults, pageable);
     }
 
@@ -98,7 +99,7 @@ public class SearchService
 		searchEntry(search);
 	}
 
-	private void searchEntry(Search search)
+	public void searchEntry(Search search)
 	{
 		logger.info("Searching for {} with priority order {}", search.getTitle(), sortedServices);
 		search.setStatus(SearchStatus.SEARCHING);

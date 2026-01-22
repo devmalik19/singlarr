@@ -1,5 +1,6 @@
 package devmalik19.singlarr.controller;
 
+import devmalik19.singlarr.data.dao.Search;
 import devmalik19.singlarr.data.dto.DownloadRequest;
 import devmalik19.singlarr.data.dto.MetadataResult;
 import devmalik19.singlarr.data.dto.SearchResult;
@@ -64,17 +65,18 @@ public class SearchController
 	}
 
 	@GetMapping("/search/interactive")
-    public String interactive(@RequestParam(value = "search") String search, Pageable pageable, Model model) throws Exception
+    public String interactive(@RequestParam(value = "id") Integer id, Pageable pageable, Model model) throws Exception
 	{
-		Page<SearchResult> searchResultsPage = searchService.interactiveSearch(search, pageable);
+		Page<SearchResult> searchResultsPage = searchService.interactiveSearch(id, pageable);
 		return PaginationHelper.prepareResponse(searchResultsPage, pageable, model);
     }
 
 	@GetMapping("/search/trigger")
 	@ResponseBody
-	public ResponseEntity<String> trigger() throws Exception
+	public ResponseEntity<String> trigger(@RequestParam(value = "id") int id) throws Exception
 	{
-		searchService.triggerSearch();
+		Search search = searchService.getSearchById(id);
+		searchService.searchEntry(search);
 		return ResponseEntity.ok("");
 	}
 }
