@@ -2,9 +2,12 @@ package devmalik19.singlarr.data.dao;
 
 
 import devmalik19.singlarr.constants.SearchStatus;
+import devmalik19.singlarr.data.dto.DownloadState;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -23,4 +26,8 @@ public class Search
 	@ManyToOne
 	@JoinColumn(name = "library")
 	private Library library;
+
+	@JdbcTypeCode(SqlTypes.JSON)
+	@Column(columnDefinition = "TEXT")
+	private DownloadState data;
 }

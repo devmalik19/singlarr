@@ -19,6 +19,7 @@ CREATE TABLE search (
     "year" VARCHAR(255) NULL,
     "status" VARCHAR(255) NULL,
     "library" INTEGER NULL,
+    "data" TEXT,
     CONSTRAINT FK_SEARCH_ON_LIBRARY  FOREIGN KEY (library) REFERENCES library (id)
 );
 

@@ -42,7 +42,7 @@ services:
 # TODO
 ## alpha release :
 
-Test torrent and Usenet
-From download to artist folder
+1, check if downloading is complete and move the file to correct folder
+2, Cache
 
 ## Good to have (Not needed) :
