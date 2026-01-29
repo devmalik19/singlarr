@@ -4,13 +4,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import devmalik19.singlarr.constants.Keys;
 import devmalik19.singlarr.constants.Protocol;
+import devmalik19.singlarr.constants.SearchStatus;
 import devmalik19.singlarr.constants.Settings;
+import devmalik19.singlarr.data.dao.Search;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
 import devmalik19.singlarr.data.dto.DownloadRequest;
+import devmalik19.singlarr.data.dto.DownloadState;
 import devmalik19.singlarr.data.dto.SearchResult;
 import devmalik19.singlarr.helper.FilesHelper;
-import devmalik19.singlarr.service.ServiceProvider;
 
+import devmalik19.singlarr.repository.SearchRepository;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -19,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NetworkService implements ServiceProvider
+public class NetworkService
 {
 	Logger logger = LoggerFactory.getLogger(NetworkService.class);
 
@@ -40,6 +43,9 @@ public class NetworkService implements ServiceProvider
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private SearchRepository searchRepository;
 
 
 	public String check(String key, ConnectionSettings connectionSettings)
@@ -70,12 +76,38 @@ public class NetworkService implements ServiceProvider
 			sabnzbdService.addNzb(downloadRequest.getUrl());
 	}
 
-	@Override
-	public boolean search(String query) throws Exception
+	public boolean search(Search search) throws Exception
+	{
+		boolean isSuccess = false;
+		DownloadState downloadState;
+
+		downloadState = search(search.getArtist() + " " + search.getTitle());
+
+		if(downloadState.isEmpty())
+			downloadState = search(search.getAlbum()  + " " + search.getTitle());
+		else
+			isSuccess = true;
+
+		if(downloadState.isEmpty())
+			downloadState = search(search.getArtist()  + " " + search.getAlbum()  + " " +search.getTitle());
+		else
+			isSuccess = true;
+
+		if(!downloadState.isEmpty())
+			isSuccess = true;
+
+		if(isSuccess)
+			search.setData(downloadState);
+		search.setStatus(isSuccess ? SearchStatus.DOWNLOADING: SearchStatus.NOTFOUND);
+		searchRepository.save(search);
+
+		return isSuccess;
+	}
+
+	public DownloadState search(String query) throws Exception
 	{
 		logger.info("Searching network services");
 
-		boolean isSuccess = false;
 		SearchResult[] results = prowlarrService.search(query);
 
 		logger.info("{} results found from prowlarr for {}", results.length, query);
@@ -91,21 +123,25 @@ public class NetworkService implements ServiceProvider
 		else
 			results = Arrays.stream(results).sorted(Comparator.comparing(SearchResult::getProtocol).reversed().thenComparing(comparator)).toArray(SearchResult[]::new);
 
+		DownloadState downloadState = new DownloadState();
 		for(SearchResult result: results)
 		{
 			logger.debug("Matching {} with search results {}", query, result.getTitle());
 			if(FilesHelper.isMatch(query, result.getTitle()))
 			{
 				logger.info("Match successfully, adding to download {}", result.getTitle());
-				if(Protocol.isTorrent(result.getProtocol()))
-					qbittorrentService.addTorrent(result.getGuid());
+				if (Protocol.isTorrent(result.getProtocol()))
+				{
+					downloadState = qbittorrentService.addTorrent(result.getGuid());
+				}
 				else
-					sabnzbdService.addNzb(result.getGuid());
-				isSuccess = true;
+				{
+					downloadState = sabnzbdService.addNzb(result.getGuid());
+				}
 				break;
 			}
 		}
-		return isSuccess;
+		return downloadState;
 	}
 
 	public ConnectionSettings getConnectionsSettingsForIndexes()
@@ -145,5 +181,13 @@ public class NetworkService implements ServiceProvider
 			logger.error(e.getLocalizedMessage());
 		}
 		return connectionSettingsList;
+	}
+
+	public void checkDownloads(Search search) throws Exception
+	{
+		if(Objects.equals(search.getData().getService(), NetworkService.QBITTORRENT))
+			qbittorrentService.checkDownloads(search);
+		if(Objects.equals(search.getData().getService(), NetworkService.SABNZBD))
+			sabnzbdService.checkDownloads(search);
 	}
 }

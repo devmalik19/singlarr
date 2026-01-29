@@ -1,21 +1,23 @@
 package devmalik19.singlarr.service.plugins;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import devmalik19.singlarr.constants.SearchStatus;
 import devmalik19.singlarr.constants.Settings;
+import devmalik19.singlarr.data.dao.Search;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
+import devmalik19.singlarr.data.dto.DownloadState;
 import devmalik19.singlarr.helper.FilesHelper;
-import devmalik19.singlarr.service.ServiceProvider;
+import devmalik19.singlarr.repository.SearchRepository;
 import devmalik19.singlarr.service.plugins.SlskdService.SearchResult;
 import java.util.HashMap;
 import java.util.List;
 
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class PluginsService implements ServiceProvider
+public class PluginsService
 {
 	Logger logger = LoggerFactory.getLogger(PluginsService.class);
 
@@ -27,6 +29,9 @@ public class PluginsService implements ServiceProvider
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private SearchRepository searchRepository;
 
 	public String check(String key, ConnectionSettings connectionSettings)
 	{
@@ -54,14 +59,40 @@ public class PluginsService implements ServiceProvider
 		return connectionSettingsList;
 	}
 
-	@Override
-	public boolean search(String query) throws Exception
+	public boolean search(Search search) throws Exception
+	{
+		boolean isSuccess = false;
+		DownloadState downloadState;
+
+		downloadState = search(search.getArtist() + " " + search.getTitle());
+
+		if(downloadState.isEmpty())
+			downloadState = search(search.getAlbum()  + " " + search.getTitle());
+		else
+			isSuccess = true;
+
+		if(downloadState.isEmpty())
+			downloadState = search(search.getArtist()  + " " + search.getAlbum()  + " " +search.getTitle());
+		else
+			isSuccess = true;
+
+		if(!downloadState.isEmpty())
+			isSuccess = true;
+
+		if(isSuccess)
+			search.setData(downloadState);
+		search.setStatus(isSuccess ? SearchStatus.DOWNLOADING: SearchStatus.NOTFOUND);
+		searchRepository.save(search);
+
+		return isSuccess;
+	}
+
+	public DownloadState search(String query) throws Exception
 	{
 		logger.info("Searching plugins services");
 
-		boolean isSuccess = false;
+		DownloadState downloadState = new DownloadState();
 		List<SearchResult> results = slskdService.search(query);
-
 		logger.info("{} results found from slskdService", results.size());
 
 		for(SearchResult result: results)
@@ -70,11 +101,16 @@ public class PluginsService implements ServiceProvider
 			if(FilesHelper.isMatch(query, result.fullPath()))
 			{
 				logger.info("Match successfully, adding to download {}", result.fullPath());
-				slskdService.download(result.username(), result.fullPath(), result.fileSize());
-				isSuccess = true;
+				downloadState = slskdService.download(result.username(), result.fullPath(), result.fileSize());
 				break;
 			}
 		}
-		return isSuccess;
+		return downloadState;
+	}
+
+	public void checkDownloads(Search search)
+	{
+		if(Objects.equals(search.getData().getService(), PluginsService.SLSKD))
+			slskdService.checkDownloads(search);
 	}
 }

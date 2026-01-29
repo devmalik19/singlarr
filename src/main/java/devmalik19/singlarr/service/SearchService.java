@@ -105,22 +105,18 @@ public class SearchService
 		search.setStatus(SearchStatus.SEARCHING);
 		searchRepository.save(search);
 
-		boolean isSuccess = false;
+		boolean isSuccess;
 		for (Entry<String, Integer> entry : sortedServices)
 		{
 			try
 			{
 				if(NetworkService.services.contains(entry.getKey()))
 				{
-					isSuccess = networkService.search(search.getArtist() + " " + search.getTitle())
-					|| networkService.search(search.getAlbum()  + " " + search.getTitle())
-					|| networkService.search(search.getArtist()  + " " + search.getAlbum()  + " " +search.getTitle());
+					isSuccess = networkService.search(search);
 				}
 				else
 				{
-					isSuccess = pluginsService.search(search.getArtist() + " " + search.getTitle())
-					|| pluginsService.search(search.getAlbum()  + " " + search.getTitle())
-					|| pluginsService.search(search.getArtist()  + " " + search.getAlbum()  + " " +search.getTitle());
+					isSuccess = pluginsService.search(search);
 				}
 
 				if(isSuccess)
@@ -131,9 +127,6 @@ public class SearchService
 				logger.debug(e.getLocalizedMessage());
 			}
 		}
-
-		search.setStatus(isSuccess ? SearchStatus.DOWNLOADING: SearchStatus.NOTFOUND);
-		searchRepository.save(search);
 		logger.info("Search for {} finish", search.getTitle());
 	}
 
@@ -152,5 +145,21 @@ public class SearchService
 	{
 		Optional<Search> opt = searchRepository.findById(id);
 		return opt.get();
+	}
+
+	public void checkDownloads()
+	{
+		List<Search> searchList = searchRepository.findByStatus(SearchStatus.DOWNLOADING);
+		searchList.forEach(search -> {
+			try
+			{
+				networkService.checkDownloads(search);
+				pluginsService.checkDownloads(search);
+			}
+			catch (Exception e)
+			{
+				logger.debug(e.getLocalizedMessage());
+			}
+		});
 	}
 }

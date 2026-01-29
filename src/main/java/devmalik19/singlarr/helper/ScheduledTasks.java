@@ -29,6 +29,7 @@ public class ScheduledTasks
 	public void checkDownloads()
 	{
 		logger.info("Starting download check!");
+		searchService.checkDownloads();
 		logger.info("download check ended!");
 	}
 }
