@@ -34,7 +34,7 @@ services:
             # - DB_URL="jdbc:mariadb://localhost:3306/singlarr" # Optional, this is the default value.
             # - DB_USER=mariadb # Optional, this is the default value.
             # - DB_PASSWORD=mariadb # Optional, this is the default value.
-            # - ENCRYPTION_KEY=12345678901234567890123456789012 # Optional, please replace this with a 32 byte random string to enable encryption and decryption of credentials in DB
+            # - ENCRYPTION_KEY=your-secret-key # Optional, set any string to enable encryption of credentials in DB. Leave empty or omit to disable encryption.
             # - LOGGING_LEVEL=DEBUG  # Optional
         restart: unless-stopped
 ````
@@ -42,7 +42,5 @@ services:
 # TODO
 ## alpha release :
 
-1, check if downloading is complete and move the file to correct folder
-2, Cache
 
 ## Good to have (Not needed) :

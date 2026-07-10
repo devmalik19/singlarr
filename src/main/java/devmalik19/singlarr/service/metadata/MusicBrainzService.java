@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +24,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class MusicBrainzService
 {
-	Logger logger = LoggerFactory.getLogger(MusicBrainzService.class);
+	private static final Logger logger = LoggerFactory.getLogger(MusicBrainzService.class);
 
-	@Autowired
-	private HttpRequestService httpRequestService;
+	private final HttpRequestService httpRequestService;
+	private final ObjectMapper objectMapper;
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
+	public MusicBrainzService(HttpRequestService httpRequestService, ObjectMapper objectMapper)
+	{
+		this.httpRequestService = httpRequestService;
+		this.objectMapper = objectMapper;
+	}
 	private static String MUSICBRAINZ_URL = "https://musicbrainz.org/ws/2/";
 	private static String COVERTART_URL = "https://coverartarchive.org/release/" ;
 

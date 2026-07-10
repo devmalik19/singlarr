@@ -1,4 +1,4 @@
-package devmalik19.singlarr.helper;
+package devmalik19.singlarr.view;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

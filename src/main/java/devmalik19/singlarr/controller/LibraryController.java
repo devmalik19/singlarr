@@ -3,7 +3,6 @@ package devmalik19.singlarr.controller;
 import devmalik19.singlarr.constants.FolderType;
 import devmalik19.singlarr.data.dao.Library;
 import devmalik19.singlarr.service.LibraryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class LibraryController
 {
-	@Autowired
-	private LibraryService libraryService;
+	private final LibraryService libraryService;
+
+	public LibraryController(LibraryService libraryService)
+	{
+		this.libraryService = libraryService;
+	}
 
 	@GetMapping("/library")
 	public String library(Model model)

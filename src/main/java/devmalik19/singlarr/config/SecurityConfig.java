@@ -26,7 +26,7 @@ public class SecurityConfig
 	{
 		httpSecurity.authorizeHttpRequests(auth->
 			auth
-				.requestMatchers("/images/logos/**").permitAll()
+				.requestMatchers("/images/**", "/css/**", "/js/**", "/cache/**").permitAll()
 				.anyRequest().authenticated()
 		).formLogin(Customizer.withDefaults());
 		return httpSecurity.build();

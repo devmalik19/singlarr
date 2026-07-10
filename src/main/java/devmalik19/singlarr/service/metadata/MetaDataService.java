@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,28 +16,32 @@ import org.springframework.util.StringUtils;
 @Service
 public class MetaDataService
 {
-	@Autowired
-	private MusicBrainzService musicBrainzService;
+	private final MusicBrainzService musicBrainzService;
+	private final FileSystemService fileSystemService;
+	private final LibraryRepository libraryRepository;
 
-	@Autowired
-	private FileSystemService fileSystemService;
-
-	@Autowired
-	private LibraryRepository libraryRepository;
+	public MetaDataService(MusicBrainzService musicBrainzService,
+						   FileSystemService fileSystemService,
+						   LibraryRepository libraryRepository)
+	{
+		this.musicBrainzService = musicBrainzService;
+		this.fileSystemService = fileSystemService;
+		this.libraryRepository = libraryRepository;
+	}
 
 	public void getMetaForLibrary(Library library, Path file)
 	{
 		Path imagePath = fileSystemService.findLibraryImage(file);
-		if (imagePath!=null && Files.exists(imagePath))
+		if (imagePath != null && Files.exists(imagePath))
 		{
 			String name = String.valueOf(library.getId());
 			String extension = StringUtils.getFilenameExtension(imagePath.toString());
-			String imageFileName = name+"."+extension;
+			String imageFileName = name + "." + extension;
 			fileSystemService.copyImageToCache(imagePath, "library", imageFileName);
 			library.setImage(imageFileName);
 		}
 		libraryRepository.save(library);
-    }
+	}
 
 	public Page<MetadataResult> search(String title, String artist, String album, String year, Pageable pageable)
 	{

@@ -1,9 +1,8 @@
-package devmalik19.singlarr.helper;
+package devmalik19.singlarr.lifecycle;
 
 import devmalik19.singlarr.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledTasks
 {
-	static Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	@Autowired
-	private SearchService searchService;
+	private final SearchService searchService;
+
+	public ScheduledTasks(SearchService searchService)
+	{
+		this.searchService = searchService;
+	}
 
 	@Scheduled(cron = "0 0 6 * * *")
 	public void ScheduledSearch() throws Exception

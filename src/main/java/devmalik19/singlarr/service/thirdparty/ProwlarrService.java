@@ -1,13 +1,12 @@
 package devmalik19.singlarr.service.thirdparty;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import devmalik19.singlarr.constants.Constants;
-import devmalik19.singlarr.constants.Keys;
-import devmalik19.singlarr.constants.Settings;
 import devmalik19.singlarr.data.dao.Index;
 import devmalik19.singlarr.data.dto.SearchResult;
 import devmalik19.singlarr.data.dto.Tag;
+import devmalik19.singlarr.helper.PriorityHelper;
+import devmalik19.singlarr.helper.SettingsHelper;
 import devmalik19.singlarr.repository.IndexRepository;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
 
@@ -18,7 +17,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -27,31 +25,36 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class ProwlarrService
 {
-	Logger logger = LoggerFactory.getLogger(ProwlarrService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProwlarrService.class);
 
-    @Autowired
-    private HttpRequestService httpRequestService;
+	private final HttpRequestService httpRequestService;
+	private final IndexRepository indexRepository;
+	private final ObjectMapper objectMapper;
+	private final SettingsHelper settingsHelper;
 
-    @Autowired
-	private IndexRepository indexRepository;
+	public ProwlarrService(HttpRequestService httpRequestService,
+						   IndexRepository indexRepository,
+						   ObjectMapper objectMapper,
+						   SettingsHelper settingsHelper)
+	{
+		this.httpRequestService = httpRequestService;
+		this.indexRepository = indexRepository;
+		this.objectMapper = objectMapper;
+		this.settingsHelper = settingsHelper;
+	}
 
-	@Autowired
-	private ObjectMapper objectMapper;
+	public String checkConnection(ConnectionSettings connectionSettings)
+	{
+		return httpRequestService.doGetRequest(String.format("%s/ping", connectionSettings.getUrl()));
+	}
 
-    public String checkConnection(ConnectionSettings connectionSettings)
-    {
-        return httpRequestService.doGetRequest(String.format("%s/ping", connectionSettings.getUrl()));
-    }
-
-    public void sync() throws Exception
+	public void sync() throws Exception
 	{
 		logger.info("Starting indexes sync");
 
-		String value = Settings.store.get(NetworkService.PROWLARR);
-		if(StringUtils.hasText(value))
+		ConnectionSettings prowlarrSettings = settingsHelper.getConnectionSettings(NetworkService.PROWLARR);
+		if (prowlarrSettings != null)
 		{
-			ConnectionSettings prowlarrSettings = objectMapper.readValue(value, ConnectionSettings.class);
-
 			String url = String.format("%s/api/v1/indexer", prowlarrSettings.getUrl());
 
 			Map<String, String> headers = new HashMap<>();
@@ -59,7 +62,7 @@ public class ProwlarrService
 			headers.put("X-Api-Key", prowlarrSettings.getApiKey());
 
 			String response = httpRequestService.doGetRequest(url, headers);
-			if(StringUtils.hasText(response))
+			if (StringUtils.hasText(response))
 			{
 				logger.debug("Response from prowlarr : {}", response);
 
@@ -69,40 +72,37 @@ public class ProwlarrService
 				Index[] indexes = objectMapper.readValue(response, Index[].class);
 				String category = prowlarrSettings.getCategory();
 				Arrays.stream(indexes)
-						.filter(Index::isEnable)
-						.filter(index -> {
-							if (!StringUtils.hasText(category)) return true;
+					.filter(Index::isEnable)
+					.filter(index -> {
+						if (!StringUtils.hasText(category)) return true;
 
-							if (index.getTags() == null || index.getTags().length == 0) return false;
+						if (index.getTags() == null || index.getTags().length == 0) return false;
 
-							return Arrays.stream(index.getTags())
-										.filter(prowlarrTags::containsKey)
-										.anyMatch(indexTag-> prowlarrTags.get(indexTag).contains(category));
-
-						})
-						.forEach(index -> indexRepository.save(index));
+						return Arrays.stream(index.getTags())
+							.filter(prowlarrTags::containsKey)
+							.anyMatch(indexTag -> prowlarrTags.get(indexTag).contains(category));
+					})
+					.forEach(indexRepository::save);
 			}
 		}
 		logger.info("Indexes sync finish!");
-    }
+	}
 
 	@Cacheable("ProwlarrSearchResult")
-    public SearchResult[] search(String searchTerm) throws Exception
+	public SearchResult[] search(String searchTerm) throws Exception
 	{
-		String value = Settings.store.get(Keys.PRIORITY);
-		HashMap<String, Integer> priority = objectMapper.readValue(value, new TypeReference<HashMap<String, Integer>>() {});
+		HashMap<String, Integer> priority = PriorityHelper.getPriority();
 
-		value = Settings.store.get(NetworkService.PROWLARR);
-		if(StringUtils.hasText(value))
+		ConnectionSettings prowlarrSettings = settingsHelper.getConnectionSettings(NetworkService.PROWLARR);
+		if (prowlarrSettings != null)
 		{
-			ConnectionSettings prowlarrSettings = objectMapper.readValue(value, ConnectionSettings.class);
 			List<Index> indexes = indexRepository.findAll();
 
 			List<String> indexerIds = indexes.stream()
-					.filter(Index::isEnable)
-					.filter(index -> priority.containsKey(index.getProtocol()) && priority.get(index.getProtocol())!=0)
-					.map(index -> String.valueOf(index.getId()))
-					.toList();
+				.filter(Index::isEnable)
+				.filter(index -> priority.containsKey(index.getProtocol()) && priority.get(index.getProtocol()) != 0)
+				.map(index -> String.valueOf(index.getId()))
+				.toList();
 
 			String url = String.format("%s/api/v1/search/", prowlarrSettings.getUrl());
 			UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(url);
@@ -127,7 +127,7 @@ public class ProwlarrService
 		}
 
 		return new SearchResult[]{};
-    }
+	}
 
 	public Map<Integer, String> tags(ConnectionSettings prowlarrSettings) throws Exception
 	{
@@ -142,18 +142,17 @@ public class ProwlarrService
 		headers.put("X-Api-Key", prowlarrSettings.getApiKey());
 
 		String response = httpRequestService.doGetRequest(url, headers);
-		if(StringUtils.hasText(response))
+		if (StringUtils.hasText(response))
 		{
 			logger.debug("Response from prowlarr : {}", response);
 			Tag[] items = objectMapper.readValue(response, Tag[].class);
 			tags = Arrays.stream(items)
-					.collect(Collectors.toMap(
-							Tag::getId,
-							Tag::getLabel
-					));
+				.collect(Collectors.toMap(
+					Tag::getId,
+					Tag::getLabel
+				));
 		}
 		logger.info("Tags fetch!");
 		return tags;
 	}
 }
-

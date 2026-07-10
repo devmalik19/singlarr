@@ -1,30 +1,27 @@
 package devmalik19.singlarr.service.thirdparty;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import devmalik19.singlarr.constants.Keys;
 import devmalik19.singlarr.constants.Protocol;
-import devmalik19.singlarr.constants.SearchStatus;
-import devmalik19.singlarr.constants.Settings;
 import devmalik19.singlarr.data.dao.Search;
 import devmalik19.singlarr.data.dto.ConnectionSettings;
 import devmalik19.singlarr.data.dto.DownloadRequest;
 import devmalik19.singlarr.data.dto.DownloadState;
 import devmalik19.singlarr.data.dto.SearchResult;
 import devmalik19.singlarr.helper.FilesHelper;
+import devmalik19.singlarr.helper.PriorityHelper;
+import devmalik19.singlarr.helper.SearchHelper;
+import devmalik19.singlarr.helper.SettingsHelper;
 
 import devmalik19.singlarr.repository.SearchRepository;
 import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NetworkService
 {
-	Logger logger = LoggerFactory.getLogger(NetworkService.class);
+	private static final Logger logger = LoggerFactory.getLogger(NetworkService.class);
 
 	public static final String PROWLARR = "prowlarr";
 	public static final String QBITTORRENT = "qbt";
@@ -32,21 +29,24 @@ public class NetworkService
 
 	public static final List<String> services = List.of(Protocol.TORRENT.name(), Protocol.USENET.name());
 
-	@Autowired
-	private ProwlarrService prowlarrService;
+	private final ProwlarrService prowlarrService;
+	private final QbittorrentService qbittorrentService;
+	private final SabnzbdService sabnzbdService;
+	private final SettingsHelper settingsHelper;
+	private final SearchRepository searchRepository;
 
-	@Autowired
-	private QbittorrentService qbittorrentService;
-
-	@Autowired
-	private SabnzbdService sabnzbdService;
-
-	@Autowired
-	private ObjectMapper objectMapper;
-
-	@Autowired
-	private SearchRepository searchRepository;
-
+	public NetworkService(ProwlarrService prowlarrService,
+						  QbittorrentService qbittorrentService,
+						  SabnzbdService sabnzbdService,
+						  SettingsHelper settingsHelper,
+						  SearchRepository searchRepository)
+	{
+		this.prowlarrService = prowlarrService;
+		this.qbittorrentService = qbittorrentService;
+		this.sabnzbdService = sabnzbdService;
+		this.settingsHelper = settingsHelper;
+		this.searchRepository = searchRepository;
+	}
 
 	public String check(String key, ConnectionSettings connectionSettings)
 	{
@@ -70,7 +70,7 @@ public class NetworkService
 
 	public void addToDownloadClients(DownloadRequest downloadRequest) throws Exception
 	{
-		if(Protocol.isTorrent(downloadRequest.getProtocol()))
+		if (Protocol.isTorrent(downloadRequest.getProtocol()))
 			qbittorrentService.addTorrent(downloadRequest.getUrl());
 		else
 			sabnzbdService.addNzb(downloadRequest.getUrl());
@@ -78,30 +78,7 @@ public class NetworkService
 
 	public boolean search(Search search) throws Exception
 	{
-		boolean isSuccess = false;
-		DownloadState downloadState;
-
-		downloadState = search(search.getArtist() + " " + search.getTitle());
-
-		if(downloadState.isEmpty())
-			downloadState = search(search.getAlbum()  + " " + search.getTitle());
-		else
-			isSuccess = true;
-
-		if(downloadState.isEmpty())
-			downloadState = search(search.getArtist()  + " " + search.getAlbum()  + " " +search.getTitle());
-		else
-			isSuccess = true;
-
-		if(!downloadState.isEmpty())
-			isSuccess = true;
-
-		if(isSuccess)
-			search.setData(downloadState);
-		search.setStatus(isSuccess ? SearchStatus.DOWNLOADING: SearchStatus.NOTFOUND);
-		searchRepository.save(search);
-
-		return isSuccess;
+		return SearchHelper.progressiveSearch(search, searchRepository, this::search);
 	}
 
 	public DownloadState search(String query) throws Exception
@@ -116,18 +93,17 @@ public class NetworkService
 			.comparingInt(SearchResult::getSeeders).reversed()
 			.thenComparingInt(SearchResult::getLeechers).reversed();
 
-		String value = Settings.store.get(Keys.PRIORITY);
-		HashMap<String, Integer> priority = objectMapper.readValue(value, new TypeReference<HashMap<String, Integer>>() {});
-		if(priority.get(Protocol.TORRENT.name())<priority.get(Protocol.USENET.name()))
+		HashMap<String, Integer> priority = PriorityHelper.getPriority();
+		if (priority.getOrDefault(Protocol.TORRENT.name(), 0) < priority.getOrDefault(Protocol.USENET.name(), 0))
 			results = Arrays.stream(results).sorted(Comparator.comparing(SearchResult::getProtocol).thenComparing(comparator)).toArray(SearchResult[]::new);
 		else
 			results = Arrays.stream(results).sorted(Comparator.comparing(SearchResult::getProtocol).reversed().thenComparing(comparator)).toArray(SearchResult[]::new);
 
 		DownloadState downloadState = new DownloadState();
-		for(SearchResult result: results)
+		for (SearchResult result : results)
 		{
 			logger.debug("Matching {} with search results {}", query, result.getTitle());
-			if(FilesHelper.isMatch(query, result.getTitle()))
+			if (FilesHelper.isMatch(query, result.getTitle()))
 			{
 				logger.info("Match successfully, adding to download {}", result.getTitle());
 				if (Protocol.isTorrent(result.getProtocol()))
@@ -146,48 +122,22 @@ public class NetworkService
 
 	public ConnectionSettings getConnectionsSettingsForIndexes()
 	{
-		String value = Settings.store.get(PROWLARR);
-		try
-		{
-			return objectMapper.readValue(value, ConnectionSettings.class);
-		}
-		catch (Exception e)
-		{
-			logger.error(e.getLocalizedMessage());
-		}
-		return new ConnectionSettings();
+		return settingsHelper.getConnectionSettingsOrDefault(PROWLARR);
 	}
 
 	public HashMap<String, ConnectionSettings> getConnectionsSettingsForClients()
 	{
 		HashMap<String, ConnectionSettings> connectionSettingsList = new HashMap<>();
-		try
-		{
-			String value = Settings.store.get(QBITTORRENT);
-			if(value!=null)
-				connectionSettingsList.put(QBITTORRENT, objectMapper.readValue(value, ConnectionSettings.class));
-			else
-				connectionSettingsList.put(QBITTORRENT, new ConnectionSettings());
-
-			value = Settings.store.get(SABNZBD);
-			if(value!=null)
-				connectionSettingsList.put(SABNZBD, objectMapper.readValue(value, ConnectionSettings.class));
-			else
-				connectionSettingsList.put(SABNZBD,  new ConnectionSettings());
-
-		}
-		catch (Exception e)
-		{
-			logger.error(e.getLocalizedMessage());
-		}
+		connectionSettingsList.put(QBITTORRENT, settingsHelper.getConnectionSettingsOrDefault(QBITTORRENT));
+		connectionSettingsList.put(SABNZBD, settingsHelper.getConnectionSettingsOrDefault(SABNZBD));
 		return connectionSettingsList;
 	}
 
 	public void checkDownloads(Search search) throws Exception
 	{
-		if(Objects.equals(search.getData().getService(), NetworkService.QBITTORRENT))
+		if (Objects.equals(search.getData().getService(), NetworkService.QBITTORRENT))
 			qbittorrentService.checkDownloads(search);
-		if(Objects.equals(search.getData().getService(), NetworkService.SABNZBD))
+		if (Objects.equals(search.getData().getService(), NetworkService.SABNZBD))
 			sabnzbdService.checkDownloads(search);
 	}
 }

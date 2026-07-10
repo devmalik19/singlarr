@@ -7,7 +7,6 @@ import devmalik19.singlarr.data.dto.SearchResult;
 import devmalik19.singlarr.helper.PaginationHelper;
 import devmalik19.singlarr.service.SearchService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SearchController
 {
+	private final SearchService searchService;
 
-    @Autowired
-    private SearchService searchService;
+	public SearchController(SearchService searchService)
+	{
+		this.searchService = searchService;
+	}
 
 	@GetMapping("/search")
 	public String history(Pageable pageable, Model model) throws Exception
@@ -65,11 +67,11 @@ public class SearchController
 	}
 
 	@GetMapping("/search/interactive")
-    public String interactive(@RequestParam(value = "id") Integer id, Pageable pageable, Model model) throws Exception
+	public String interactive(@RequestParam(value = "id") Integer id, Pageable pageable, Model model) throws Exception
 	{
 		Page<SearchResult> searchResultsPage = searchService.interactiveSearch(id, pageable);
 		return PaginationHelper.prepareResponse(searchResultsPage, pageable, model);
-    }
+	}
 
 	@GetMapping("/search/trigger/{id}")
 	@ResponseBody

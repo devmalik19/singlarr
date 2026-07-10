@@ -5,7 +5,6 @@ import devmalik19.singlarr.data.dto.MetadataResult;
 import devmalik19.singlarr.helper.PaginationHelper;
 import devmalik19.singlarr.service.LibraryService;
 import devmalik19.singlarr.service.metadata.MetaDataService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -16,18 +15,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController
 {
-	@Autowired
-	private MetaDataService metaDataService;
+	private final MetaDataService metaDataService;
+	private final LibraryService libraryService;
 
-	@Autowired
-	private LibraryService libraryService;
-
+	public HomeController(MetaDataService metaDataService, LibraryService libraryService)
+	{
+		this.metaDataService = metaDataService;
+		this.libraryService = libraryService;
+	}
 
 	@GetMapping("/")
-    public String home()
-    {
-        return "home";
-    }
+	public String home()
+	{
+		return "home";
+	}
 
 	@GetMapping("/home/search")
 	public String search(

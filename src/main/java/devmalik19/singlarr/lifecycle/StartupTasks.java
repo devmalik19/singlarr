@@ -1,4 +1,4 @@
-package devmalik19.singlarr.helper;
+package devmalik19.singlarr.lifecycle;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

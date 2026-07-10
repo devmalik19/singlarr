@@ -19,38 +19,41 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
 public class LibraryService
 {
-	Logger logger = LoggerFactory.getLogger(LibraryService.class);
+	private static final Logger logger = LoggerFactory.getLogger(LibraryService.class);
 
-	@Autowired
-	private FileSystemService fileSystemService;
+	private final FileSystemService fileSystemService;
+	private final MetaDataService metaDataService;
+	private final LibraryRepository libraryRepository;
+	private final ItemRepository itemRepository;
+	private final LibraryFilterRepository libraryFilterRepository;
 
-	@Autowired
-	private MetaDataService metaDataService;
-
-	@Autowired
-	private LibraryRepository libraryRepository;
-
-	@Autowired
-	private ItemRepository itemRepository;
-
-	@Autowired
-	private LibraryFilterRepository libraryFilterRepository;
+	public LibraryService(FileSystemService fileSystemService,
+						  MetaDataService metaDataService,
+						  LibraryRepository libraryRepository,
+						  ItemRepository itemRepository,
+						  LibraryFilterRepository libraryFilterRepository)
+	{
+		this.fileSystemService = fileSystemService;
+		this.metaDataService = metaDataService;
+		this.libraryRepository = libraryRepository;
+		this.itemRepository = itemRepository;
+		this.libraryFilterRepository = libraryFilterRepository;
+	}
 
 	public void dbCleanUp() throws Exception
 	{
 		logger.info("Database cleanup started!");
 		List<Library> libraryList = libraryRepository.findAll();
 		List<Library> toDelete = new ArrayList<>();
-		for(Library library:libraryList)
+		for (Library library : libraryList)
 		{
-			if(!Files.exists(Path.of(library.getPath())))
+			if (!Files.exists(Path.of(library.getPath())))
 				toDelete.add(library);
 		}
 		if (!toDelete.isEmpty())
@@ -71,7 +74,7 @@ public class LibraryService
 
 		logger.info("Starting root scan with list of files/directories {}", filesList);
 
-		filesList.forEach(file->{
+		filesList.forEach(file -> {
 
 			boolean isIgnored = Constants.pathMatcherList.stream().anyMatch(matcher -> matcher.matches(file));
 			boolean isDbIgnored = dbFilters.stream().anyMatch(matcher -> matcher.matches(file));
@@ -84,10 +87,10 @@ public class LibraryService
 			Path path = file.toAbsolutePath().normalize();
 			Path parentPath = path.getParent();
 
-			if(parentPath!=null && rootPath.equals(parentPath))
-				parentPath=null;
+			if (parentPath != null && rootPath.equals(parentPath))
+				parentPath = null;
 
-			if(Files.isDirectory(file))
+			if (Files.isDirectory(file))
 			{
 				logger.info("Scanning directory {}", path);
 				int depth = rootPath.relativize(path).getNameCount();
@@ -100,10 +103,10 @@ public class LibraryService
 				{
 					case 1:
 						library.setType(FolderType.ARTIST);
-					break;
+						break;
 					case 2:
 						library.setType(FolderType.ALBUM);
-					break;
+						break;
 				}
 
 				if (parentPath != null && savedDirectories.containsKey(parentPath))
@@ -119,7 +122,7 @@ public class LibraryService
 			{
 				logger.info("Scanning files {} in directory {}", path, parentPath);
 				String extension = StringUtils.getFilenameExtension(path.toString());
-				if(!FileTypes.isMatch(extension))
+				if (!FileTypes.isMatch(extension))
 					return;
 
 				Item item = itemRepository.findByPath(path.toString()).orElse(new Item());
@@ -143,9 +146,7 @@ public class LibraryService
 		List<LibraryFilter> dbFilters = libraryFilterRepository.findAll();
 		FileSystem fileSystem = FileSystems.getDefault();
 		return dbFilters.stream()
-			.map(filter -> {
-				return fileSystem.getPathMatcher("glob:" + filter + "{,/**}");
-			})
+			.map(filter -> fileSystem.getPathMatcher("glob:" + filter + "{,/**}"))
 			.toList();
 	}
 
