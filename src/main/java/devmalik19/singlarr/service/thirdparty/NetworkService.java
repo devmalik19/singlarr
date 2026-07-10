@@ -114,6 +114,7 @@ public class NetworkService
 				{
 					downloadState = sabnzbdService.addNzb(result.getGuid());
 				}
+				downloadState.setIdentifier(result.getTitle());
 				break;
 			}
 		}

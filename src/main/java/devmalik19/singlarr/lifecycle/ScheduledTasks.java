@@ -20,7 +20,7 @@ public class ScheduledTasks
 	}
 
 	@Scheduled(cron = "0 0 6 * * *")
-	public void ScheduledSearch() throws Exception
+	public void scheduledSearch() throws Exception
 	{
 		logger.info("Starting scheduled search!");
 		searchService.reset();
@@ -33,6 +33,6 @@ public class ScheduledTasks
 	{
 		logger.info("Starting download check!");
 		searchService.checkDownloads();
-		logger.info("download check ended!");
+		logger.info("Download check ended!");
 	}
 }

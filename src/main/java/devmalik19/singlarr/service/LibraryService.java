@@ -146,7 +146,7 @@ public class LibraryService
 		List<LibraryFilter> dbFilters = libraryFilterRepository.findAll();
 		FileSystem fileSystem = FileSystems.getDefault();
 		return dbFilters.stream()
-			.map(filter -> fileSystem.getPathMatcher("glob:" + filter + "{,/**}"))
+			.map(filter -> fileSystem.getPathMatcher("glob:" + filter.getPath() + "{,/**}"))
 			.toList();
 	}
 
