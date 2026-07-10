@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<body  th:replace="~{layouts/layout :: base('Home')}">
+		<div th:fragment="content">
+
+			<label for="search">Title</label>
+			<input id="search" placeholder="Enter title..."/>
+
+			<label for="artist">Artist</label>
+			<input id="artist" placeholder="Enter artist..."/>
+
+			<label for="album">Album</label>
+			<input id="album" placeholder="Enter album..."/>
+
+
+			<label for="year">Year</label>
+			<input id="year" placeholder="Enter year..."/>
+
+			<button type="button" onclick="metadataSearch(this)">
+				Metadata Search
+			</button>
+
+			<div id="searchResults">
+			</div>
+		</div>
+	</body>
+</html>
