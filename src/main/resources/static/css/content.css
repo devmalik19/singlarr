@@ -1,5 +1,27 @@
 /* CSS for elements inside the main content */
 
+.alert
+{
+	padding: 12px 16px;
+	border-radius: var(--border-radius);
+	margin-bottom: 16px;
+	font-size: 0.9rem;
+}
+
+.alert-success
+{
+	background-color: rgba(29, 185, 84, 0.2);
+	border: 1px solid var(--sub-color);
+	color: var(--sub-color);
+}
+
+.alert-danger
+{
+	background-color: rgba(255, 77, 77, 0.2);
+	border: 1px solid #ff4d4d;
+	color: #ff4d4d;
+}
+
 h2
 {
 	border-bottom: 2px solid #ccc;

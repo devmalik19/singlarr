@@ -1,6 +1,7 @@
 package devmalik19.singlarr.data.dao;
 
 import devmalik19.singlarr.constants.FolderType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,9 @@ public class Library
 	private String path;
 	private String image;
 	private String creator;
+
+	@Column(nullable = false)
+	private boolean metadataFetched = false;
 
 	@ManyToOne
 	@JoinColumn(name = "parent")
