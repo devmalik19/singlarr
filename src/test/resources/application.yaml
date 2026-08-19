@@ -16,6 +16,4 @@ app:
         config: "/config"
         download: "/downloads"
         library: "/library"
-    encryption:
-        key: "ENCRYPTION_KEY"
     user-agent: "Singlarr/1.0"

@@ -9,7 +9,7 @@ After downloading, it will be moved to that album's folder and Artist and Album 
 ### Docker command
 
 ````
-docker run -p 8019:8019 ghcr.io/devmalik19/singlarr:latest
+docker run -p 3600:3600 ghcr.io/devmalik19/singlarr:latest
 ````
 
 ### Docker compose
@@ -20,21 +20,16 @@ services:
     singlarr:
         image: ghcr.io/devmalik19/singlarr:latest
         ports:
-            - "8019:8019"
+            - "3600:3600"
         volumes:
             - /path/to/config:/config 
             - /path/to/library:/library #optional
             - /path/to/download-client-downloads:/downloads #optional
         environment:
-            # - PORT=8019  # Optional, if you want to change the port.
+            # - PORT=3600  # Optional, if you want to change the port.
             # - BASE_URL=/singlarr  # Optional, if you want to run the app under subfolder like domain.com/singlarr (useful for reverse proxy)
             # - USER=user # Optional, if you want to change the default username.
-            # - PASSWORD=XXXXXX  # Optional, if you want to change the default password.
-            # - SPRING_PROFILES_ACTIVE=mariadb # Optional, if you want to use your own MariaDB database.
-            # - DB_URL="jdbc:mariadb://localhost:3306/singlarr" # Optional, this is the default value.
-            # - DB_USER=mariadb # Optional, this is the default value.
-            # - DB_PASSWORD=mariadb # Optional, this is the default value.
-            # - ENCRYPTION_KEY=your-secret-key # Optional, set any string to enable encryption of credentials in DB. Leave empty or omit to disable encryption.
+            # - PASSWORD=XXXXXX  # Optional, if you want to change the default password.            
             # - LOGGING_LEVEL=DEBUG  # Optional
         restart: unless-stopped
 ````
