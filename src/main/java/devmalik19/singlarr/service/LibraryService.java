@@ -6,6 +6,7 @@ import devmalik19.singlarr.constants.FolderType;
 import devmalik19.singlarr.data.dao.Item;
 import devmalik19.singlarr.data.dao.Library;
 import devmalik19.singlarr.data.dao.LibraryFilter;
+import devmalik19.singlarr.helper.SortingHelper;
 import devmalik19.singlarr.repository.ItemRepository;
 import devmalik19.singlarr.repository.LibraryFilterRepository;
 import devmalik19.singlarr.repository.LibraryRepository;
@@ -192,10 +193,10 @@ public class LibraryService
 	{
 		switch (sort)
 		{
-			case "name" -> library.sort(Comparator.comparing(Library::getName, String.CASE_INSENSITIVE_ORDER));
+			case "name" -> library.sort(Comparator.comparing(Library::getName, SortingHelper.naturalOrder()));
 			case "directory" -> library.sort(Comparator.comparing(
 				lib -> Path.of(lib.getPath()).getParent().getFileName().toString(),
-				String.CASE_INSENSITIVE_ORDER
+				SortingHelper.naturalOrder()
 			));
 		}
 	}
