@@ -169,9 +169,28 @@ public class LibraryService
 		return libraryRepository.findAll();
 	}
 
+	public List<Library> getByType(FolderType type, String sort)
+	{
+		List<Library> library = libraryRepository.findByType(type);
+		sortLibrary(library, sort);
+		return library;
+	}
+
 	public List<Library> getByType(FolderType type)
 	{
-		return libraryRepository.findByType(type);
+		return getByType(type, "name");
+	}
+
+	private void sortLibrary(List<Library> library, String sort)
+	{
+		switch (sort)
+		{
+			case "name" -> library.sort(Comparator.comparing(Library::getName, String.CASE_INSENSITIVE_ORDER));
+			case "directory" -> library.sort(Comparator.comparing(
+				lib -> Path.of(lib.getPath()).getParent().getFileName().toString(),
+				String.CASE_INSENSITIVE_ORDER
+			));
+		}
 	}
 
 	public Library findById(Integer id)

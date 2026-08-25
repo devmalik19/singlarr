@@ -17,8 +17,8 @@ spring:
         database-platform: "org.hibernate.community.dialect.SQLiteDialect"
     security:
         user:
-            name: ${USER:admin}
-            password: ${PASSWORD:admin}
+            name: ${APP_USER:}
+            password: ${APP_PASSWORD:}
 
 logging:
     level:
@@ -33,4 +33,4 @@ app:
         key: ${ENCRYPTION_KEY:}
     user-agent: ${USER_AGENT:Singlarr/1.0}
 
-disable-security: ${DISABLE_SECURITY:${USER:true}}
+

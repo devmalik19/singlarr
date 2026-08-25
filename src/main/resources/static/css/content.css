@@ -29,6 +29,38 @@ h2
 	padding-bottom: 0.35em;
 }
 
+.page-header
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.page-header h2
+{
+	margin: 0;
+	flex-grow: 1;
+}
+
+.page-header-actions
+{
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.sort-select
+{
+	padding: 8px 12px;
+	border-radius: var(--border-radius);
+	border: 1px solid #ccc;
+	background-color: var(--bg-color, #1e1e1e);
+	color: inherit;
+	font-size: 0.9rem;
+	cursor: pointer;
+}
+
 .grid
 {
 	display: grid;

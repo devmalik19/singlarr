@@ -3,11 +3,13 @@ package devmalik19.singlarr.controller;
 import devmalik19.singlarr.constants.FolderType;
 import devmalik19.singlarr.data.dao.Library;
 import devmalik19.singlarr.service.LibraryService;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -21,9 +23,11 @@ public class LibraryController
 	}
 
 	@GetMapping("/library")
-	public String library(Model model)
+	public String library(@RequestParam(value = "sort", defaultValue = "name") String sort, Model model)
 	{
-		model.addAttribute("library", libraryService.getByType(FolderType.ARTIST));
+		List<Library> library = libraryService.getByType(FolderType.ARTIST, sort);
+		model.addAttribute("library", library);
+		model.addAttribute("sort", sort);
 		return "library";
 	}
 

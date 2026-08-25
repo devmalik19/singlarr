@@ -5,11 +5,17 @@
 			<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
 			<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-			<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div class="page-header">
 				<h2>Library</h2>
-				<form th:action="@{/library/metadata/all}" method="post" style="padding: 0; margin: 0;">
-					<button type="submit" class="button">Refresh All Metadata</button>
-				</form>
+				<div class="page-header-actions">
+					<select class="sort-select" onchange="window.location.href=this.value">
+						<option th:value="${'?sort=name'}" th:selected="${sort == 'name'}">Sort: Alphabetical</option>
+						<option th:value="${'?sort=directory'}" th:selected="${sort == 'directory'}">Sort: Directory</option>
+					</select>
+					<form th:action="@{/library/metadata/all}" method="post" style="padding: 0; margin: 0;">
+						<button type="submit" class="button">Refresh All Metadata</button>
+					</form>
+				</div>
 			</div>
 
 			<div class="poster-grid">
