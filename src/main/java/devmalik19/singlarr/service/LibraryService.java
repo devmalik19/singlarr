@@ -169,16 +169,23 @@ public class LibraryService
 		return libraryRepository.findAll();
 	}
 
-	public List<Library> getByType(FolderType type, String sort)
+	public List<Library> getByType(FolderType type, String sort, String search)
 	{
 		List<Library> library = libraryRepository.findByType(type);
+		if (StringUtils.hasText(search))
+		{
+			library = library.stream()
+				.filter(lib -> lib.getName().toLowerCase().contains(search.toLowerCase()))
+				.toList();
+		}
+		library = new ArrayList<>(library);
 		sortLibrary(library, sort);
 		return library;
 	}
 
 	public List<Library> getByType(FolderType type)
 	{
-		return getByType(type, "name");
+		return getByType(type, "name", "");
 	}
 
 	private void sortLibrary(List<Library> library, String sort)
@@ -191,6 +198,31 @@ public class LibraryService
 				String.CASE_INSENSITIVE_ORDER
 			));
 		}
+	}
+
+	public List<Library> getSortedChildren(Library library, String sort, String search)
+	{
+		List<Library> children = new ArrayList<>(library.getLibraryList());
+		if (StringUtils.hasText(search))
+		{
+			children = new ArrayList<>(children.stream()
+				.filter(lib -> lib.getName().toLowerCase().contains(search.toLowerCase()))
+				.toList());
+		}
+		sortLibrary(children, sort);
+		return children;
+	}
+
+	public List<Item> getFilteredItems(Library library, String search)
+	{
+		List<Item> items = library.getItemList();
+		if (StringUtils.hasText(search))
+		{
+			items = items.stream()
+				.filter(item -> item.getName().toLowerCase().contains(search.toLowerCase()))
+				.toList();
+		}
+		return items;
 	}
 
 	public Library findById(Integer id)

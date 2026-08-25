@@ -23,22 +23,30 @@ public class LibraryController
 	}
 
 	@GetMapping("/library")
-	public String library(@RequestParam(value = "sort", defaultValue = "name") String sort, Model model)
+	public String library(@RequestParam(value = "sort", defaultValue = "name") String sort,
+						  @RequestParam(value = "search", defaultValue = "") String search,
+						  Model model)
 	{
-		List<Library> library = libraryService.getByType(FolderType.ARTIST, sort);
+		List<Library> library = libraryService.getByType(FolderType.ARTIST, sort, search);
 		model.addAttribute("library", library);
 		model.addAttribute("sort", sort);
+		model.addAttribute("search", search);
 		return "library";
 	}
 
 	@GetMapping("/library/{id}")
-	public String items(@PathVariable("id") Integer id, Model model)
+	public String items(@PathVariable("id") Integer id,
+						@RequestParam(value = "sort", defaultValue = "name") String sort,
+						@RequestParam(value = "search", defaultValue = "") String search,
+						Model model)
 	{
 		Library library = libraryService.findById(id);
 
 		model.addAttribute("library", library);
-		model.addAttribute("libraries", library.getLibraryList());
-		model.addAttribute("items", library.getItemList());
+		model.addAttribute("libraries", libraryService.getSortedChildren(library, sort, search));
+		model.addAttribute("items", libraryService.getFilteredItems(library, search));
+		model.addAttribute("sort", sort);
+		model.addAttribute("search", search);
 
 		return "items";
 	}
