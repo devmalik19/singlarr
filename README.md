@@ -9,7 +9,7 @@ After downloading, it will be moved to that album's folder and Artist and Album 
 ### Docker command
 
 ````
-docker run -p 3600:3600 ghcr.io/devmalik19/singlarr:latest
+docker run -p 3900:3900 ghcr.io/devmalik19/singlarr:latest
 ````
 
 ### Docker compose
@@ -20,13 +20,13 @@ services:
     singlarr:
         image: ghcr.io/devmalik19/singlarr:latest
         ports:
-            - "3600:3600"
+            - "3900:3900"
         volumes:
             - /path/to/config:/config 
             - /path/to/library:/library #optional
             - /path/to/download-client-downloads:/downloads #optional
         environment:
-            # - PORT=3600  # Optional, if you want to change the port.
+            # - PORT=3900  # Optional, if you want to change the port.
             # - BASE_URL=/singlarr  # Optional, if you want to run the app under subfolder like domain.com/singlarr (useful for reverse proxy)
             # - USER=user # Optional, if you want to change the default username.
             # - PASSWORD=XXXXXX  # Optional, if you want to change the default password.            
