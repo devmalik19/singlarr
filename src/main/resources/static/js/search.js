@@ -157,3 +157,15 @@ async function addSearch(button)
     modal.close();
 }
 
+
+document.addEventListener('DOMContentLoaded', function() {
+	const inputs = document.querySelectorAll('#search, #artist, #album, #year');
+	inputs.forEach(function(input) {
+		input.addEventListener('keydown', function(event) {
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				document.getElementById('metadataSearchBtn').click();
+			}
+		});
+	});
+});
