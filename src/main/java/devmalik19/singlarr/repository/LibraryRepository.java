@@ -22,4 +22,9 @@ public interface LibraryRepository extends JpaRepository<Library, Integer>
 	@Transactional
 	@Query("UPDATE Library l SET l.metadataFetched = false")
 	int resetAllMetadataFlags();
+
+	@Modifying
+	@Transactional
+	@Query("UPDATE Library l SET l.metadataFetched = false WHERE l.type = :type")
+	int resetMetadataFlagsByType(FolderType type);
 }

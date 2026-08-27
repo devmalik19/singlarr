@@ -69,7 +69,7 @@ public class LibraryController
 	@PostMapping("/library/metadata/all")
 	public String refreshAllMetadata(RedirectAttributes redirectAttributes)
 	{
-		int count = libraryService.resetAllMetadataFlags();
+		int count = libraryService.resetMetadataFlagsByType(FolderType.ARTIST);
 		redirectAttributes.addFlashAttribute("message", count + " library entries reset. Metadata will be re-fetched on next scan.");
 		return "redirect:/library";
 	}

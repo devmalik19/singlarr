@@ -119,6 +119,10 @@ async function fetchResults()
 
 async function download(button)
 {
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = '...';
+
     const downloadUrl = button.getAttribute('data-url');
     const protocol = button.getAttribute('data-protocol');
     const body = {
@@ -126,6 +130,15 @@ async function download(button)
             protocol: protocol
     };
     const response = await doPostRequestWithBody("search/download", body);
+
+    if (response.ok)
+    {
+        button.textContent = '✅';
+    }
+    else
+    {
+        button.textContent = '❌';
+    }
 }
 
 async function deleteSearch(id)
@@ -147,6 +160,10 @@ function openDialog(button)
 
 async function addSearch(button)
 {
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = '...';
+
 	const modal = document.getElementById('searchModal');
     const payload = modal.dataset.pendingRow;
     const data = JSON.parse(payload);
@@ -154,7 +171,15 @@ async function addSearch(button)
     const library = button.getAttribute('data-item');
     data.library = library;
     const response = await doPostRequestWithBody("search/add", data);
-    modal.close();
+
+    if (response.ok)
+    {
+        button.textContent = '✅';
+    }
+    else
+    {
+        button.textContent = '❌';
+    }
 }
 
 

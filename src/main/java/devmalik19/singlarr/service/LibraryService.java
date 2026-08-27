@@ -255,4 +255,10 @@ public class LibraryService
 	{
 		return libraryRepository.resetAllMetadataFlags();
 	}
+
+	@Transactional
+	public int resetMetadataFlagsByType(FolderType type)
+	{
+		return libraryRepository.resetMetadataFlagsByType(type);
+	}
 }
