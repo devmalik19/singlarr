@@ -11,6 +11,7 @@ import devmalik19.singlarr.helper.SettingsHelper;
 import devmalik19.singlarr.service.HttpRequestService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class SlskdService implements PluginHandler
 	}
 
 	@Override
-	public boolean search(Search search) throws Exception
+	public boolean search(Search search, Set<String> blocklist) throws Exception
 	{
 		String query = search.getArtist() + " " + search.getTitle();
 		String searchId = submitSearch(query);
@@ -86,7 +87,7 @@ public class SlskdService implements PluginHandler
 	}
 
 	@Override
-	public boolean checkSearchAndDownload(Search search) throws Exception
+	public boolean checkSearchAndDownload(Search search, Set<String> blocklist) throws Exception
 	{
 		ConnectionSettings connectionSettings = settingsHelper.getConnectionSettings(SERVICE_NAME);
 		if (connectionSettings == null) return false;
@@ -122,6 +123,12 @@ public class SlskdService implements PluginHandler
 			{
 				String filename = file.get("filename").asText();
 				long size = file.get("size").asLong();
+
+				if (blocklist.contains(filename))
+				{
+					logger.debug("Skipping blocklisted slskd file: {}", filename);
+					continue;
+				}
 
 				if (FilesHelper.isMatch(query, filename))
 				{
