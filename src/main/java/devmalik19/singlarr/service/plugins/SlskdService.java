@@ -8,6 +8,7 @@ import devmalik19.singlarr.data.dto.ConnectionSettings;
 import devmalik19.singlarr.data.dto.DownloadState;
 import devmalik19.singlarr.helper.FilesHelper;
 import devmalik19.singlarr.helper.SettingsHelper;
+import devmalik19.singlarr.helper.StringHelper;
 import devmalik19.singlarr.service.HttpRequestService;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class SlskdService implements PluginHandler
 	@Override
 	public boolean search(Search search, Set<String> blocklist) throws Exception
 	{
-		String query = search.getArtist() + " " + search.getTitle();
+		String query = StringHelper.buildQuery(search.getArtist(), search.getTitle());
 		String searchId = submitSearch(query);
 
 		if (searchId == null)
@@ -94,7 +95,7 @@ public class SlskdService implements PluginHandler
 
 		DownloadState state = search.getData();
 		String searchId = state.getIdentifier();
-		String query = search.getArtist() + " " + search.getTitle();
+		String query = StringHelper.buildQuery(search.getArtist(), search.getTitle());
 
 		Map<String, String> headers = buildHeaders(connectionSettings);
 

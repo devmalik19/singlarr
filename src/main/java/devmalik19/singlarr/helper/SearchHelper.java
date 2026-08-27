@@ -32,16 +32,20 @@ public class SearchHelper
 	 */
 	public static boolean progressiveSearch(Search search, SearchRepository searchRepository, QueryExecutor executor) throws Exception
 	{
-		DownloadState downloadState = executor.execute(search.getArtist() + " " + search.getAlbum() + " " + search.getTitle());
+		String artist = search.getArtist();
+		String album = search.getAlbum();
+		String title = search.getTitle();
+
+		DownloadState downloadState = executor.execute(StringHelper.buildQuery(artist, album, title));
 
 		if (downloadState.isEmpty())
-			downloadState = executor.execute(search.getAlbum() + " " + search.getTitle());
+			downloadState = executor.execute(StringHelper.buildQuery(album, title));
 
 		if (downloadState.isEmpty())
-			downloadState = executor.execute(search.getArtist() + " " + search.getTitle());
+			downloadState = executor.execute(StringHelper.buildQuery(artist, title));
 
 		if (downloadState.isEmpty())
-			downloadState = executor.execute(search.getTitle());
+			downloadState = executor.execute(StringHelper.buildQuery(title));
 
 		boolean isSuccess = !downloadState.isEmpty();
 
